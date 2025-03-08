@@ -12,6 +12,10 @@ rectangle "TxikI/A Application" {
   usecase "Sign Up" as signup
   usecase "Logout" as logout
   usecase "Manage Projects" as manageProjects
+  usecase "Create Projects" as createProject
+  usecase "Open Project" as openProject
+  usecase "Change Project Name" as changeProjectName
+  usecase "Delete Project" as deleteProject
   usecase "Ask Questions to AI" as askAI
   usecase "Generate Quiz" as genQuiz
   usecase "Complete Quiz" as completeQuiz
@@ -44,5 +48,11 @@ receiveAIResponse <-- llm
 completeQuiz ..> quizFeedback : <<include>>
 submitAnswers ..> problemFeedback : <<include>>
 askAI ..> receiveAIResponse : <<include>>
+
+' Project management includes
+manageProjects ..> createProject : <<include>>
+manageProjects ..> openProject : <<include>>
+manageProjects ..> changeProjectName : <<include>>
+manageProjects ..> deleteProject : <<include>>
 
 @enduml
