@@ -1,0 +1,93 @@
+@startuml "Txik/IA Domain Model"
+
+skinparam classAttributeIconSize 0
+skinparam classFontStyle bold
+skinparam classFontSize 14
+skinparam classBackgroundColor LightSkyBlue
+skinparam classBorderColor DarkSlateGray
+
+class User {
+  +userId : String
+  +username : String
+  +password : String
+  +createdAt : DateTime
+  +lastLogin : DateTime
+}
+
+class Project {
+  +projectId : String
+  +name : String
+  +description : String
+  +createdAt : DateTime
+  +lastModified : DateTime
+  +subject : String
+}
+
+class ChatSession {
+  +sessionId : String
+  +createdAt : DateTime
+  +lastInteraction : DateTime
+}
+
+class Message {
+  +messageId : String
+  +content : String
+  +timestamp : DateTime
+  +isUserMessage : Boolean
+}
+
+class Quiz {
+  +quizId : String
+  +createdAt : DateTime
+  +completedAt : DateTime
+}
+
+class QuizQuestion {
+  +questionId : String
+  +questionText : String
+  +options : List<String>
+  +correctAnswer : String
+  +userAnswer : String
+}
+
+class QuizResult {
+  +resultId : String
+  +score : Integer
+  +totalQuestions : Integer
+  +percentage : Double
+  +feedback : String
+}
+
+class Problem {
+  +problemId : String
+  +statement : String
+  +expectedSolution : String
+  +createdAt : DateTime
+}
+
+class UserAnswer {
+  +answerId : String
+  +content : String
+  +submittedAt : DateTime
+}
+
+class ProblemFeedback {
+  +feedbackId : String
+  +correctAspects : String
+  +incorrectAspects : String
+  +suggestedSolution : String
+  +generatedAt : DateTime
+}
+
+' Relationships
+User "1" -- "*" Project : owns >
+Project "1" -- "*" ChatSession : has >
+Project "1" -- "*" Quiz : has >
+Project "1" -- "*" Problem : has >
+ChatSession "1" -- "*" Message : contains >
+Quiz "1" -- "*" QuizQuestion : contains >
+Quiz "1" -- "1" QuizResult : produces >
+Problem "1" -- "1" UserAnswer : has >
+Problem "1" -- "1" ProblemFeedback : receives >
+
+@enduml
