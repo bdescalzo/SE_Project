@@ -4,55 +4,55 @@ left to right direction
 skinparam packageStyle rectangle
 skinparam actorStyle awesome
 
-actor "User" as user
+actor "User" as generalUser
+actor "Registered User" as regUser
 actor "LLM AI" as llm
 
 rectangle "TxikI/A Application" {
   usecase "Login" as login
   usecase "Sign Up" as signup
   usecase "Logout" as logout
-  usecase "Manage Projects" as manageProjects
   usecase "Create Projects" as createProject
   usecase "Open Project" as openProject
   usecase "Change Project Name" as changeProjectName
   usecase "Delete Project" as deleteProject
-  usecase "Ask Questions to AI" as askAI
+  usecase "Talk with AI" as talkWithAI
   usecase "Generate Quiz" as genQuiz
   usecase "Complete Quiz" as completeQuiz
   usecase "Receive Quiz Feedback" as quizFeedback
   usecase "Generate Problem Statements" as genProblems
   usecase "Submit Elaborate Answers" as submitAnswers
-  usecase "Receive Problem Feedback" as problemFeedback
-  usecase "Receive Response of AI" as receiveAIResponse
+  usecase "Receive Answer Feedback" as answerFeedback
 }
 
 ' User interactions
-user --> signup
-user --> login
-user --> logout
-user --> manageProjects
-user --> askAI
-user --> genQuiz
-user --> completeQuiz
-user --> genProblems
-user --> submitAnswers
+generalUser --> login
+generalUser --> signup
+
+' Registered User interactions
+regUser --> logout
+regUser --> createProject
+regUser --> openProject
+regUser --> changeProjectName
+regUser --> deleteProject
+regUser --> talkWithAI
+regUser --> genQuiz
+regUser --> completeQuiz
+regUser --> genProblems
+regUser --> submitAnswers
+
+' Actor generalization
+generalUser <|-- regUser
 
 ' AI interactions - only one direction arrows
+talkWithAI <-- llm
 genQuiz <-- llm
 genProblems <-- llm
 quizFeedback <-- llm
-problemFeedback <-- llm
-receiveAIResponse <-- llm
+answerFeedback <-- llm
 
 ' Include relationships
 completeQuiz ..> quizFeedback : <<include>>
-submitAnswers ..> problemFeedback : <<include>>
-askAI ..> receiveAIResponse : <<include>>
-
-' Project management includes
-manageProjects ..> createProject : <<include>>
-manageProjects ..> openProject : <<include>>
-manageProjects ..> changeProjectName : <<include>>
-manageProjects ..> deleteProject : <<include>>
+submitAnswers ..> answerFeedback : <<include>>
 
 @enduml
