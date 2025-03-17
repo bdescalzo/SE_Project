@@ -4,7 +4,7 @@
 
 2. A registered user wants to work in its math projects, which are saved with several information in a projects database.
 
-3. For each project, the user can ask questions related to this project to the LLM AI of our application, so a chat with it is open. The user can review the previous questions they have asked the IA before.
+3. For each project, the user can ask questions related to this project to the LLM AI of our application, so a chat with it is open. The user can review the previous questions they have asked the AI before. The AI has three different capabilities: generating a written explanation, generating function plots and generating SageMath scripts to complement the explanation. If the user is asking for the question or quiz generator, the LLM has the capability to redirect them there, and start the quizzing/question-making process.
 
 4. Another functionality of the projects is a generator of quizzes, where the application makes a quiz with questions related to the project. Once the user has finished the quiz, it will be evaluated and they will receive some feedback.
 
