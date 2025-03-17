@@ -1,18 +1,17 @@
-@startuml TxikI/A Application Use Case Diagram
-
+@startuml
 left to right direction
 skinparam packageStyle rectangle
 skinparam actorStyle awesome
 
 actor "User" as generalUser
-actor "Registered User" as regUser
+actor "Logged User" as regUser
 actor "LLM AI" as llm
 
 rectangle "TxikI/A Application" {
   usecase "Login" as login
   usecase "Sign Up" as signup
   usecase "Logout" as logout
-  usecase "Create Projects" as createProject
+  usecase "Create Project" as createProject
   usecase "Open Project" as openProject
   usecase "Change Project Name" as changeProjectName
   usecase "Delete Project" as deleteProject
@@ -54,5 +53,4 @@ answerFeedback <-- llm
 ' Include relationships
 completeQuiz ..> quizFeedback : <<include>>
 submitAnswers ..> answerFeedback : <<include>>
-
 @enduml
