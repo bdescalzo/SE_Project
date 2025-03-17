@@ -1,5 +1,4 @@
-@startuml "Txik/IA Domain Model"
-
+@startuml
 skinparam classAttributeIconSize 0
 skinparam classFontStyle bold
 skinparam classFontSize 14
@@ -34,6 +33,12 @@ class Message {
   +content : String
   +timestamp : DateTime
   +isUserMessage : Boolean
+}
+
+class Script {
+  +scriptId : String
+  +content : String
+  +timestamp : DateTime
 }
 
 class Quiz {
@@ -85,9 +90,9 @@ Project "1" -- "*" ChatSession : has >
 Project "1" -- "*" Quiz : has >
 Project "1" -- "*" Problem : has >
 ChatSession "1" -- "*" Message : contains >
+ChatSession "1" -- "*" Script : contains >
 Quiz "1" -- "*" QuizQuestion : contains >
 Quiz "1" -- "1" QuizResult : produces >
 Problem "1" -- "1" UserAnswer : has >
 Problem "1" -- "1" ProblemFeedback : receives >
-
 @enduml
