@@ -28,9 +28,16 @@ Event Flow for "Ask Questions to AI" (Actor: User, LLM AI):
 **A1: Non project-related question**
 - At step 6, if the question typed by the user un step 4 is not project-related:
   1. LLM AI detects the question is not project-related and lets it know to the system.
-  2. The system notify the user that the question typed is not project-related.
+  2. The system notifies the user that the question typed is not project-related.
   3. Remove the information stored in the project database about the question asked by the logged user.
   4. The process go back to step 4.
+
+**A2: Quiz or question request detected**
+- At step 7, if LLM AI detects that question typed by the user in step 4 related to the project and a request for a quiz or a question:
+  1. LLM AI detects the question is a question or quiz request and lets it know to the system.
+  2. System goes to the corresponding flow, passing the relevant information as the prompt.
+  3. System informs Logged User through the chat interface that the question or quiz is ready on its corresponding interface area.
+  4. The process ends.
 
 
 ## Use Case 2: Generate Quiz
@@ -102,9 +109,9 @@ Event Flow for "Delete Project" (Actor: User):
 **A1: Logged User confirmation not granded**
 - At step 2, if Logged User doesn't accept deletion of project:
   1. The deletion prompt is closed.
-  2. System returns to previous state.
+  2. System returns to previous state and process ends.
 
 **A2: Error in deletion**
 - At step 3, if System fails to delete the project (due to an error when accessing or modifying the database):
   1. Logged User is warned about the error and prompted to try again.
-  2. System returns to previous state.
+  2. System returns to previous state and process ends.
