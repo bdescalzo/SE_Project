@@ -68,18 +68,18 @@ public class ProjectController {
         projectPager.setPageCount(3);
         projectPager.setMaxPageIndicatorCount(3);
         projectPager.setStyle("-fx-arrows-visible: false");
-        System.out.println("Name = "+projects.get(0).getName());
-        ProjectList.ProjectEntry entry = projectList.new ProjectEntry(projects.get(0));
+        if(projects.size() > 0) {
+            ProjectList.ProjectEntry entry = projectList.new ProjectEntry(projects.get(0));
 
-        projectPager.setPageFactory( index -> {
+            projectPager.setPageFactory(index -> {
                 VBox box = new VBox();
                 box.setAlignment(Pos.CENTER);
                 box.setSpacing(10);
                 box.getChildren().add(entry.getProjectEntryPane());
                 return box;
 
-        });
-
+            });
+        }
         welcomeMessage.setText("Welcome back, "+ User.getUsername_static()+"!");
 
 
