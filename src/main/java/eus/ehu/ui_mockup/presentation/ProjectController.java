@@ -4,6 +4,7 @@ import atlantafx.base.theme.Styles;
 import eus.ehu.ui_mockup.business_logic.BInterface;
 import eus.ehu.ui_mockup.business_logic.BusinessLogic;
 import eus.ehu.ui_mockup.domain.Project;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
@@ -19,6 +20,7 @@ import org.kordamp.ikonli.material2.Material2MZ;
 import eus.ehu.ui_mockup.domain.User;
 
 import java.io.IOException;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class ProjectController {
@@ -33,25 +35,28 @@ public class ProjectController {
     private Pagination projectPager;
 
 
-
-    @FXML
-    private TitledPane projectTitledPane6;
-
-    @FXML
-    private TitledPane projectTitledPane7;
-
-    @FXML
-    private TitledPane projectTitledPane8;
-
     @FXML
     private MenuButton userButton;
 
     @FXML
     private Label welcomeMessage;
 
+    @FXML
+    private Button createProjectButton;
+
     private BInterface bizLogic = new BusinessLogic();
 
     private ProjectList projectList ;
+
+    @FXML
+    void createProject(ActionEvent event) {
+        Project project = new Project();
+        project.setName("Debug project");
+        project.setDescription("Debug project");
+        project.setCreatedAt(LocalDateTime.now());
+        project.setUpdatedAt(LocalDateTime.now());
+        bizLogic.createProject(User.getId_static(),project);
+    }
 
     @FXML
     void initialize() {
@@ -63,14 +68,13 @@ public class ProjectController {
         List<Project> projects = bizLogic.retrieveProjects(User.getId_static());
         projectList = new ProjectList(projects);
 
-        System.out.println("Project numbers = "+projects.size());
 
-        projectPager.setPageCount(3);
-        projectPager.setMaxPageIndicatorCount(3);
         projectPager.setStyle("-fx-arrows-visible: false");
-        if(projects.size() > 0) {
+        if(!projects.isEmpty()) {
+            int project_num_per_page = projects.size()/5;
             ProjectList.ProjectEntry entry = projectList.new ProjectEntry(projects.get(0));
-
+            projectPager.setMaxPageIndicatorCount(project_num_per_page);
+            projectPager.setPageCount(project_num_per_page);
             projectPager.setPageFactory(index -> {
                 VBox box = new VBox();
                 box.setAlignment(Pos.CENTER);

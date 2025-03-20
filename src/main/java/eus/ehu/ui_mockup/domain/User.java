@@ -71,4 +71,8 @@ public class User {
     public Long getId() {
         return id;
     }
+
+    public void addProject(Project project) {
+        projects.add(project);
+    }
 }

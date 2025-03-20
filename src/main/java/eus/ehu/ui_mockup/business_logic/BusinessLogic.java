@@ -24,4 +24,11 @@ public class BusinessLogic implements BInterface{
     public List<Project> retrieveProjects(Long id) {
         return db.getProjects(id);
     }
+
+    @Override
+    public boolean createProject(Long id, Project project) {
+        return db.storeProject(id, project);
+    }
+
+
 }

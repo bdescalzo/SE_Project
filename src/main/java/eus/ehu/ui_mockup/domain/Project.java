@@ -64,4 +64,12 @@ public class Project {
     public void setSubject(String subject) {
         this.subject = subject;
     }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
+    }
 }

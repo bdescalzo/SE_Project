@@ -72,4 +72,14 @@ public class DBController {
         return query.getResultList();
     }
 
+    public boolean storeProject(Long id, Project project) {
+        User db_user = db.find(User.class, id);
+        db.getTransaction().begin();
+        db_user.addProject(project);
+        project.setOwner(db_user);
+        db.merge(project);
+        db.getTransaction().commit();
+        System.out.println("Project created");
+        return true;
+    }
 }
