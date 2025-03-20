@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane fx:id="projectViewPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.ui_mockup.presentation.ProjectController">
+   <children>
+      <Label fx:id="welcomeMessage" alignment="CENTER" contentDisplay="CENTER" layoutX="119.0" layoutY="20.0" prefHeight="34.0" prefWidth="362.0" textFill="#6b6868">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <Pagination fx:id="projectPager" layoutX="84.0" layoutY="66.0" prefHeight="320.0" prefWidth="433.0" styleClass="bullet" />
+      <MenuButton fx:id="userButton" layoutX="539.0" layoutY="20.0" mnemonicParsing="false">
+        <items>
+          <MenuItem mnemonicParsing="false" text="Account" />
+          <MenuItem mnemonicParsing="false" text="Log Out" />
+        </items>
+         <styleClass>
+            <String fx:value="button-outlined" />
+            <String fx:value="accent" />
+            <String fx:value="flat" />
+            <String fx:value="no-arrow" />
+            <String fx:value="circled" />
+         </styleClass>
+      </MenuButton>
+   </children>
+</AnchorPane>
