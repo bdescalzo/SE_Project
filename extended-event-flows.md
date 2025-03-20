@@ -87,34 +87,24 @@ Event Flow for "Login" (Actor: User):
 
 ## Use Case 4: Delete Project
 
-**Primary Actor:** User
+**Primary Actor:** Logged User
 
 ### Main Flow:
-Event Flow for "Login" (Actor: User):
-1. System warns User about the risks of deleting the project data
-2. System asks User for confirmation of deletion
+Event Flow for "Delete Project" (Actor: User):
+1. System warns Logged User about the risks of deleting the project data
+2. System asks Logged User for confirmation of deletion
 3. System deleted stored project from the database. 
-4. System informs User of successful deletion.
+4. System informs Logged User of successful deletion.
 5. System goes back to project selection menu and refreshes list.
 
 
 ### Alternative Flows:
-**A1: User confirmation not granded**
-- At step 2, if User doesn't accept deletion of project:
+**A1: Logged User confirmation not granded**
+- At step 2, if Logged User doesn't accept deletion of project:
   1. The deletion prompt is closed.
   2. System returns to previous state.
 
 **A2: Error in deletion**
 - At step 3, if System fails to delete the project (due to an error when accessing or modifying the database):
-  1. User is warned about the error and prompted to try again.
+  1. Logged User is warned about the error and prompted to try again.
   2. System returns to previous state.
-
-
-
-
-
-
-
-
-
-
