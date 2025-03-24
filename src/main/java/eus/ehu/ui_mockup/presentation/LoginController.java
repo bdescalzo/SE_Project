@@ -54,15 +54,14 @@ public class LoginController {
     @FXML
     private Button notifBtn;
 
-    ModalFactory newModal = new ModalFactory("register-view.fxml");
+    ModalFactory newModal = new ModalFactory("login-error.fxml");
 
     BInterface bizLog = new BusinessLogic();
 
-    private final FxmlCacher project_loader = new FxmlCacher("project-view.fxml");
+    private final FxmlCacher project_loader = new FxmlCacher("projectlist-view.fxml");
 
     @FXML
     void login(ActionEvent event) {
-
 
         if(bizLog.verifyUser(userField.getText(), passField.getText())) {
             project_loader.loadContent(loginPane);
@@ -96,6 +95,7 @@ public class LoginController {
         backButton.setContentDisplay(ContentDisplay.CENTER);
 
         modalPanePage.getChildren().add(newModal.getModalPane());
+
     }
 
     void loginError(){
@@ -105,7 +105,6 @@ public class LoginController {
         userField.pseudoClassStateChanged(Styles.STATE_DANGER, false);
         passField.pseudoClassStateChanged(Styles.STATE_DANGER, false);
         loginButton.setDisable(false);
-
 
     }
 }

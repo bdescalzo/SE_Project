@@ -1,5 +1,6 @@
 package eus.ehu.ui_mockup.presentation;
 
+import atlantafx.base.theme.Styles;
 import eus.ehu.ui_mockup.business_logic.BInterface;
 import eus.ehu.ui_mockup.business_logic.BusinessLogic;
 import eus.ehu.ui_mockup.domain.User;
@@ -49,11 +50,17 @@ public class RegisterController {
 
     private BInterface bInterface = new BusinessLogic();
 
-    private FxmlCacher cacher = new FxmlCacher("project-view.fxml");
+    private FxmlCacher cacher = new FxmlCacher("projectlist-view.fxml");
+
+    private ModalFactory modal = new ModalFactory("register-error.fxml");
     @FXML
     void register(ActionEvent event) {
-        bInterface.createUser(userField.getText(), passField.getText());
-        cacher.loadContent(registerPane);
+        if(passField.equals(passFieldConfirm)) {
+            bInterface.createUser(userField.getText(), passField.getText());
+            cacher.loadContent(registerPane);
+        } else {
+            registerError();
+        }
     }
 
     @FXML
@@ -75,6 +82,18 @@ public class RegisterController {
         backButton.setGraphic(new FontIcon(Material2AL.ARROW_BACK_IOS));
         backButton.setContentDisplay(ContentDisplay.CENTER);
 
+        modalPanePage.getChildren().add(modal.getModalPane());
+    }
+
+    void registerError(){
+        modal.openModal(modalPanePage);
+        registerButton.setDisable(true);
+        /*
+        userField.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+        passField.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+        passFieldConfirm.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+         */
+        registerButton.setDisable(false);
     }
 
 

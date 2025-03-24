@@ -9,17 +9,13 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
-import javafx.scene.text.Text;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 
 public class ModalFactory {
 
     @FXML
-    ModalPane modalPane;
-
-    @FXML
-    StackPane stackPane;
+    private ModalPane modalPane;
 
     private FxmlCacher cacher;
 
@@ -35,18 +31,17 @@ public class ModalFactory {
 
         pane.setVisible(true);
 
+
         var dialog = new Dialog(240, 240);
 
-        var closeBtn = new Button("Cerrar", new FontIcon(Material2AL.CLOSE));
+        var closeBtn = new Button("Close", new FontIcon(Material2AL.CLOSE));
         closeBtn.setOnAction(evt -> closeModal(pane));
-
-        Label message = new Label("WARNING: Incorrect User/Password combination!!!");
-        message.setWrapText(true);
-
-        dialog.getChildren().setAll(message,closeBtn);
-        closeBtn.getStyleClass().add(Styles.DANGER);
+        closeBtn.getStyleClass().addAll(Styles.DANGER, Styles.BUTTON_OUTLINED);
         closeBtn.setContentDisplay(ContentDisplay.RIGHT);
 
+
+        cacher.loadContent(dialog);
+        dialog.getChildren().add(closeBtn);
         modalPane.show(dialog);
     }
 

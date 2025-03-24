@@ -8,6 +8,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonBar;
 import javafx.scene.control.Label;
 import javafx.scene.control.TitledPane;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 
 import java.text.DateFormat;
@@ -20,6 +22,8 @@ import java.util.List;
 public class ProjectList {
 
     private List<Project> projects;
+
+    private FxmlCacher cacher;
 
     public ProjectList(List<Project> project_list) {
         this.projects = project_list;
@@ -44,11 +48,11 @@ public class ProjectList {
 
         Project p = new Project();
         p.setName("Prueba DEBUG DEBUG DEBUG");
-        ProjectEntry entry = new ProjectEntry(p);
+        // ProjectEntry entry = new ProjectEntry(p);
         VBox box = new VBox();
         box.setAlignment(Pos.CENTER);
         box.setSpacing(16);
-        box.getChildren().addAll(entry.getProjectEntryPane());
+        // box.getChildren().addAll(entry.getProjectEntryPane());
         return box;
     }
 
@@ -74,8 +78,16 @@ public class ProjectList {
         @FXML
         private Label subject = new Label();
 
-        public ProjectEntry(Project p) {
+        @FXML
+        private ModalFactory editModal = new ModalFactory("edit-project-view.fxml");
 
+        @FXML
+        private ModalFactory deleteModal = new ModalFactory("edit-project-view.fxml");
+
+        public ProjectEntry(Project p, AnchorPane anchor_pane, StackPane stack_pane) {
+
+
+            stack_pane.getChildren().addAll(editModal.getModalPane(),deleteModal.getModalPane());
 
             description.setWrapText(true);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
@@ -90,17 +102,17 @@ public class ProjectList {
             Button openButton = new Button("Open");
             openButton.getStyleClass().add(Styles.SUCCESS);
             openButton.getStyleClass().add(Styles.BUTTON_OUTLINED);
-            openButton.setOnAction(event -> openProject());
+            openButton.setOnAction(event -> openProject(anchor_pane));
 
             Button editButton = new Button("Edit");
             editButton.getStyleClass().add(Styles.ACCENT);
             editButton.getStyleClass().add(Styles.BUTTON_OUTLINED);
-            editButton.setOnAction(event -> editProject());
+            editButton.setOnAction(event -> editProject(stack_pane));
 
             Button deleteButton = new Button("Delete");
             deleteButton.getStyleClass().add(Styles.DANGER);
             deleteButton.getStyleClass().add(Styles.BUTTON_OUTLINED);
-            deleteButton.setOnAction(event -> deleteProject());
+            deleteButton.setOnAction(event -> deleteProject(stack_pane));
 
             buttons.getButtons().addAll(openButton, editButton, deleteButton);
 
@@ -124,16 +136,17 @@ public class ProjectList {
              return projectEntryPane;
          }
 
-         void openProject() {
-
+         void openProject(AnchorPane pane) {
+            cacher = new FxmlCacher("project-view.fxml");
+            cacher.loadContent(pane);
          }
 
-         void editProject() {
-
+         void editProject(StackPane pane) {
+           editModal.openModal(pane);
          }
 
-         void deleteProject() {
-
+         void deleteProject(StackPane pane) {
+             deleteModal.openModal(pane);
          }
 
      }
