@@ -3,10 +3,11 @@
 
 ## Use Case 1: Talk With AI
 
-**Primary Actor:** Logged User, LLM AI  
+**Primary Actor:** Logged User, LLM AI 
+
 **Preconditions:**
--Logged User has valid credentials.
--Logged User has created at least one project.
+1. Logged User has valid credentials.
+2. Logged User has created at least one project.
 
 ### Main Flow:
 Event Flow for "Ask Questions to AI" (Actor: User, LLM AI):
@@ -43,9 +44,10 @@ Event Flow for "Ask Questions to AI" (Actor: User, LLM AI):
 ## Use Case 2: Generate Quiz
 
 **Primary Actor:** LLM AI, Logged User
+
 **Preconditions:**
--Logged User has valid credentials.
--Logged User has created at least one project.
+1. Logged User has valid credentials.
+2. Logged User has created at least one project.
 
 ### Main Flow:
 Event Flow for "Generate Quiz" (Actor: LLM AI, Logged User):
@@ -76,7 +78,7 @@ Event Flow for "Generate Quiz" (Actor: LLM AI, Logged User):
 
 ### Main Flow:
 Event Flow for "Login" (Actor: User):
-1. System asks User for username and password
+1. System asks User for username and password.
 2. User provides username and password.
 3. System checks data correspond to existing user.
 4. System authenticates User.
@@ -96,13 +98,19 @@ Event Flow for "Login" (Actor: User):
 
 **Primary Actor:** Logged User
 
+**Preconditions:**
+1. Logged User has valid credentials.
+2. Logged User has created at least one project.
+
 ### Main Flow:
 Event Flow for "Delete Project" (Actor: User):
-1. System warns Logged User about the risks of deleting the project data
-2. System asks Logged User for confirmation of deletion
-3. System deleted stored project from the database. 
-4. System informs Logged User of successful deletion.
-5. System goes back to project selection menu and refreshes list.
+1. User logs into the system.
+2. Logged User clicks on the "Delete Project" button of the project they want to delete.
+3. System warns Logged User about the risks of deleting the project data.
+4. System asks Logged User for confirmation of deletion.
+5. System deleted stored project from the database. 
+6. System informs Logged User of successful deletion.
+7. System goes back to project selection menu and refreshes list.
 
 
 ### Alternative Flows:
