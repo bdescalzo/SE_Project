@@ -18,7 +18,7 @@
             <Font size="28.0" />
          </font>
       </Label>
-      <Pagination fx:id="projectPager" layoutX="84.0" layoutY="66.0" prefHeight="320.0" prefWidth="433.0" styleClass="bullet" />
+      <Pagination fx:id="projectPager" layoutX="84.0" layoutY="66.0" prefHeight="320.0" prefWidth="433.0" styleClass="bullet" visible="false" />
       <MenuButton fx:id="userButton" layoutX="539.0" layoutY="20.0" mnemonicParsing="false">
         <items>
           <MenuItem mnemonicParsing="false" text="Account" />

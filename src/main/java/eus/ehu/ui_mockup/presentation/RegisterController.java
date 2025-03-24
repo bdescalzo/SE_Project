@@ -55,7 +55,7 @@ public class RegisterController {
     private ModalFactory modal = new ModalFactory("register-error.fxml");
     @FXML
     void register(ActionEvent event) {
-        if(passField.equals(passFieldConfirm)) {
+        if(passField.getText().equals(passFieldConfirm.getText())) {
             bInterface.createUser(userField.getText(), passField.getText());
             cacher.loadContent(registerPane);
         } else {
