@@ -15,7 +15,7 @@
     <li>Domain model.</li>
     <li>Extended event flows (for 4 different use cases).</li>
     <li>UI mockup.</li>
-  </ul>ul>  
+  </ul>
   <h3>Apart from the documentation, some code has been implemented:</h3>
   <ul>
     <li>Register implementation and its storing in databases.</li>
