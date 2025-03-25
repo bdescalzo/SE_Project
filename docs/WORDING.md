@@ -6,7 +6,7 @@
 
 3. For each project, the user can ask questions related to this project to the LLM AI of our application, so a chat with it is open. The user can review the previous questions they have asked the AI before. The AI has three different capabilities: generating a written explanation, generating function plots and generating SageMath scripts to complement the explanation. If the user is asking for the question or quiz generator, the LLM has the capability to redirect them there, and start the quizzing/question-making process.
 
-4. Another functionality of the projects is a generator of quizzes, where the application makes a quiz (a question related to the project with four possible answers). Once the user has finished the quiz, it will be evaluated and they will receive some feedback.
+4. Another functionality of the projects is a generator of quizzes, where the application makes a quiz (a set of questions related to the project, each with four possible answers). Once the user has finished the quiz, it will be evaluated and they will receive some feedback.
 
 5. The last functionality for projects is a question generator, where problem statements related to the project that is being worked on are generated. The user should write an elaborate answer, preferably with clear and concise explanations. The application should evaluate user's answer and give feedback to them, explaining what they did right in their response and what they did wrong, or if they gave a wrong answer (in this case, the application corrects the user's answer and explains what should be the correct solution).
 
