@@ -89,8 +89,8 @@ User "1" -- "*" Project : owns >
 Project "1" -- "*" ChatSession : has >
 Project "1" -- "*" Quiz : has >
 Project "1" -- "*" Problem : has >
-ChatSession "1" -- "*" Message : contains >
-ChatSession "1" -- "*" Script : contains >
+ChatSession "1" -- "0..*" Message : contains >
+ChatSession "1" -- "0..*" Script : contains >
 Quiz "1" -- "*" QuizQuestion : contains >
 Quiz "1" -- "1" QuizResult : produces >
 Problem "1" -- "1" UserAnswer : has >
