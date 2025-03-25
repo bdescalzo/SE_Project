@@ -18,10 +18,8 @@ rectangle "TxikI/A Application" {
   usecase "Talk with AI" as talkWithAI
   usecase "Generate Quiz" as genQuiz
   usecase "Complete Quiz" as completeQuiz
-  usecase "Receive Quiz Feedback" as quizFeedback
   usecase "Generate Problem Statements" as genProblems
   usecase "Submit Elaborate Answers" as submitAnswers
-  usecase "Receive Answer Feedback" as answerFeedback
 }
 
 ' User interactions
@@ -47,10 +45,6 @@ generalUser <|-- regUser
 talkWithAI <-- llm
 genQuiz <-- llm
 genProblems <-- llm
-quizFeedback <-- llm
-answerFeedback <-- llm
-
-' Include relationships
-completeQuiz ..> quizFeedback : <<include>>
-submitAnswers ..> answerFeedback : <<include>>
+completeQuiz <-- llm
+submitAnswers <-- llm
 @enduml
