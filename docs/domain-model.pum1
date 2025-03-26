@@ -82,16 +82,17 @@ class ProblemFeedback {
   +incorrectAspects : String
   +suggestedSolution : String
   +generatedAt : DateTime
+  +grade: int
 }
 
 ' Relationships
-User "1" -- "*" Project : owns >
-Project "1" -- "*" ChatSession : has >
-Project "1" -- "*" Quiz : has >
-Project "1" -- "*" Problem : has >
+User "1" -- "0..*" Project : owns >
+Project "1" -- "0..*" ChatSession : has >
+Project "1" -- "0..*" Quiz : has >
+Project "1" -- "0..*" Problem : has >
 ChatSession "1" -- "0..*" Message : contains >
 ChatSession "1" -- "0..*" Script : contains >
-Quiz "1" -- "*" QuizQuestion : contains >
+Quiz "1" -- "0..*" QuizQuestion : contains >
 Quiz "1" -- "1" QuizResult : produces >
 Problem "1" -- "1" UserAnswer : has >
 Problem "1" -- "1" ProblemFeedback : receives >
