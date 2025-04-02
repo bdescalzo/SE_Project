@@ -19,6 +19,7 @@
         </Label>
         <TextField fx:id="userField" layoutX="218.0" layoutY="95.0" promptText="Username" styleClass="STATE_SUCCESS" />
         <PasswordField fx:id="passField" layoutX="218.0" layoutY="147.0" promptText="Password" styleClass="PasswordTextField" />
+      <PasswordField fx:id="passFieldConfirm" layoutX="218.0" layoutY="200.0" promptText="Confirm Password" styleClass="PasswordTextField" />
         <Button fx:id="registerButton" layoutX="234.0" layoutY="267.0" mnemonicParsing="false" onAction="#register" prefHeight="34.0" prefWidth="149.0" text="Create Account">
             <styleClass>
                 <String fx:value="button-outlined" />
@@ -31,7 +32,6 @@
                 <String fx:value="button-circle" />
             </styleClass>
         </Button>
-      <PasswordField fx:id="passFieldConfirm" layoutX="218.0" layoutY="200.0" promptText="Confirm Password" styleClass="PasswordTextField" />
       <Label layoutX="136.0" layoutY="331.0" text="Don't worry, you'll later be able to change your account info" textFill="#6b6868" />
         <StackPane fx:id="modalPanePage" prefHeight="400.0" prefWidth="600.0" visible="false">
             <children>

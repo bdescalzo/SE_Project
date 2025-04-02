@@ -11,6 +11,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.web.WebView;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2MZ;
 
@@ -44,6 +45,9 @@ public class ProjectListController {
 
     @FXML
     private StackPane modalArea;
+
+    @FXML
+    private WebView chatWindow;
 
     private BInterface bizLogic = new BusinessLogic();
 

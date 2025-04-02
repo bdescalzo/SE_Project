@@ -10,6 +10,7 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
+<?import javafx.scene.web.WebView?>
 
 <AnchorPane fx:id="chatPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.ui_mockup.presentation.ProjectController">
    <children>
@@ -27,13 +28,13 @@
                            </styleClass>
                         </Button>
                         <TextField layoutX="54.0" layoutY="291.0" prefHeight="34.0" prefWidth="391.0" promptText="Ask me anything..." />
-                        <TextArea editable="false" layoutX="54.0" layoutY="53.0" prefHeight="206.0" prefWidth="493.0" text="\$User  &quot;\n&quot; I want to know uhhh" wrapText="true" />
                         <Button fx:id="sideBarButton" layoutX="14.0" layoutY="10.0" mnemonicParsing="false" prefHeight="17.0" prefWidth="24.0">
                            <styleClass>
                               <String fx:value="button-outlined" />
                               <String fx:value="flat" />
                            </styleClass>
                         </Button>
+                        <WebView fx:id="chatWindow" layoutX="50.0" layoutY="34.0" prefHeight="240.0" prefWidth="491.0" />
                      </children>
                   </AnchorPane>
                </content></Tab>

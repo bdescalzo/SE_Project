@@ -6,7 +6,7 @@
 
     <groupId>eus.ehu</groupId>
     <artifactId>UI_Mockup</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>0.0.1-Dev</version>
     <name>UI_Mockup</name>
 
     <properties>
@@ -18,12 +18,17 @@
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-controls</artifactId>
-            <version>21</version>
+            <version>21.0.2</version>
         </dependency>
         <dependency>
             <groupId>org.openjfx</groupId>
             <artifactId>javafx-fxml</artifactId>
-            <version>21</version>
+            <version>21.0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>org.openjfx</groupId>
+            <artifactId>javafx-web</artifactId>
+            <version>21.0.2</version>
         </dependency>
         <dependency>
             <groupId>io.github.mkpaz</groupId>
