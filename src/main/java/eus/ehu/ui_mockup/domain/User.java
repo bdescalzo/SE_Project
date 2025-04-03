@@ -5,17 +5,18 @@ import jakarta.persistence.*;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.UUID;
 
 // User is reserved in H2
 @Entity
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
 
     private static String username_static;
-    private static Long id_static;
+    private static UUID id_static;
 
     private String username;
     private String password;
@@ -60,19 +61,23 @@ public class User {
         this.password = password;
     }
 
-    public static Long getId_static() {
+    public static UUID getId_static() {
         return id_static;
     }
 
-    public static void setId_static(Long id_static) {
+    public static void setId_static(UUID id_static) {
         User.id_static = id_static;
     }
 
-    public Long getId() {
+    public UUID getId() {
         return id;
     }
 
     public void addProject(Project project) {
         projects.add(project);
+    }
+
+    public void removeProject(Project project) {
+        projects.remove(project);
     }
 }

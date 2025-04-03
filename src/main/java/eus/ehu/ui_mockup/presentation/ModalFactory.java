@@ -2,6 +2,7 @@ package eus.ehu.ui_mockup.presentation;
 
 import atlantafx.base.controls.ModalPane;
 import atlantafx.base.theme.Styles;
+import eus.ehu.ui_mockup.domain.Project;
 import javafx.fxml.FXML;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;

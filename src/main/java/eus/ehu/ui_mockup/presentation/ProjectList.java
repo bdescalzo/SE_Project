@@ -126,20 +126,28 @@ public class ProjectList {
         private ModalFactory editModal = new ModalFactory("projects/edit-project-view.fxml");
 
         @FXML
-        private ModalFactory deleteModal = new ModalFactory("projects/edit-project-view.fxml");
+        private ModalFactory deleteModal = new ModalFactory("projects/delete-project-view.fxml");
+
+        private Project cur_project;
 
         public ProjectEntry(Project p, AnchorPane anchor_pane, StackPane stack_pane) {
 
             // Maybe we can use bindings to resize our content
             // and achieve a responsive design.............
 
+            cur_project = p;
+
+            String project_name = p.getName();
+            String project_description = p.getDescription();
+
+
             stack_pane.getChildren().addAll(editModal.getModalPane(),deleteModal.getModalPane());
 
             VBox entry_content = new VBox();
 
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
-            name.setText(p.getName());
-            description.setText(p.getDescription());
+            name.setText(project_name);
+            description.setText(project_description);
             description.setWrapText(true);
             description.setPrefWidth(entry_content.getPrefWidth());
             createdAt.setText("Created at: "+formatter.format(p.getCreatedAt()));
@@ -191,12 +199,22 @@ public class ProjectList {
          }
 
          void editProject(StackPane pane) {
-           editModal.openModal(pane);
+            Project.setCurrent_UUID(cur_project.getUUID());
+            System.out.println("Selected to Edit Project with UUID = "+ Project.getCurrent_UUID());
+            editModal.openModal(pane);
          }
 
          void deleteProject(StackPane pane) {
-             deleteModal.openModal(pane);
+            Project.setCurrent_UUID(cur_project.getUUID());
+            System.out.println("Selected to Delete Project with UUID = "+ Project.getCurrent_UUID());
+            deleteModal.openModal(pane);
+         }
+
+         public Project getCur_project() {
+             return cur_project;
          }
 
      }
+
+
 }

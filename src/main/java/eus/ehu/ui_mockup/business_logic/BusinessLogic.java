@@ -5,6 +5,7 @@ import eus.ehu.ui_mockup.domain.Project;
 import eus.ehu.ui_mockup.domain.User;
 
 import java.util.List;
+import java.util.UUID;
 
 public class BusinessLogic implements BInterface{
 
@@ -21,13 +22,21 @@ public class BusinessLogic implements BInterface{
     }
 
     @Override
-    public List<Project> retrieveProjects(Long id) {
+    public List<Project> retrieveProjects(UUID id) {
         return db.getProjects(id);
     }
 
     @Override
-    public boolean createProject(Long id, Project project) {
-        return db.storeProject(id, project);
+    public boolean createProject(UUID user_id, Project project) {
+        return db.storeProject(user_id, project);
+    }
+
+    public boolean editProject(UUID id, String name, String description){
+        return db.editProject(id, name, description);
+    }
+
+    public boolean deleteProject(UUID user_id, UUID project_id) {
+        return db.deleteProject(user_id, project_id);
     }
 
 

@@ -9,6 +9,8 @@ import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
 
+import java.net.URL;
+
 public class ProjectController {
 
     @FXML
@@ -72,7 +74,8 @@ public class ProjectController {
         opt4.setToggleGroup(chatToggleGroup);
 
         WebEngine details = chatWindow.getEngine();
-        details.load("https://whatmyuseragent.com/");
+        URL url = this.getClass().getResource("webview"+"/"+ "index.html");
+        details.load(url.toString());
 
     }
 }

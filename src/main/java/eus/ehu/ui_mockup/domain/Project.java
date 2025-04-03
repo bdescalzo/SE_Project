@@ -1,14 +1,18 @@
 package eus.ehu.ui_mockup.domain;
 
 import jakarta.persistence.*;
+import org.hibernate.annotations.Type;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Entity
 public class Project {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id;
+    @GeneratedValue (strategy = GenerationType.UUID)
+
+    private UUID id;
+    private static UUID current_id;
 
     private String name;
     private String description;
@@ -71,5 +75,17 @@ public class Project {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public static UUID getCurrent_UUID() {
+        return current_id;
+    }
+
+    public static void setCurrent_UUID(UUID current_id) {
+        Project.current_id = current_id;
+    }
+
+    public UUID getUUID() {
+        return id;
     }
 }

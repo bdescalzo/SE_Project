@@ -7,7 +7,9 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -65,21 +67,44 @@ public class DBController {
         return created;
     }
 
-    public List<Project> getProjects(Long userId) {
+    public List<Project> getProjects(UUID userId) {
         User db_found = db.find(User.class, userId);
         TypedQuery<Project> query = db.createQuery("select p from Project p  where p.owner = :owner", Project.class);
         query.setParameter("owner", db_found);
         return query.getResultList();
     }
 
-    public boolean storeProject(Long id, Project project) {
+    public boolean storeProject(UUID id, Project project) {
         User db_user = db.find(User.class, id);
         db.getTransaction().begin();
         db_user.addProject(project);
         project.setOwner(db_user);
         db.merge(project);
         db.getTransaction().commit();
-        System.out.println("Project created");
+        System.out.println("Project created ");
+        return true;
+    }
+
+    public boolean editProject(UUID id, String name, String description) {
+        Project db_found = db.find(Project.class, Project.getCurrent_UUID());
+        db.getTransaction().begin();
+        db_found.setName(name);
+        db_found.setDescription(description);
+        db_found.setUpdatedAt(LocalDateTime.now());
+        db.merge(db_found);
+        db.getTransaction().commit();
+        System.out.println("Project edited with UUID = "+db_found.getUUID());
+        return true;
+    }
+
+    public boolean deleteProject(UUID user_id, UUID project_id) {
+        User db_user = db.find(User.class, user_id);
+        Project db_project = db.find(Project.class, project_id);
+        db.getTransaction().begin();
+        db_user.removeProject(db_project);
+        db.remove(db_project);
+        db.getTransaction().commit();
+        System.out.println("Project deleted with UUID = "+db_project.getUUID());
         return true;
     }
 }
