@@ -32,11 +32,17 @@
             <String fx:value="circled" />
          </styleClass>
       </MenuButton>
-      <Button fx:id="createProjectButton" layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#createProject" prefHeight="34.0" prefWidth="187.0" styleClass="danger" text="Add Blank Project" />
+      <Button fx:id="createSampleProjectButton" layoutX="14.0" layoutY="360.0" mnemonicParsing="false" onAction="#createSampleProject" prefHeight="34.0" prefWidth="187.0" styleClass="danger" text="Add Blank Project" />
       <StackPane fx:id="modalArea" prefHeight="400.0" prefWidth="600.0" visible="false">
          <children>
             <HBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" />
          </children>
       </StackPane>
+      <Button fx:id="createProjectButton" layoutX="428.0" layoutY="360.0" mnemonicParsing="false" onAction="#createNewProject" text="Create new Project">
+         <styleClass>
+            <String fx:value="accent" />
+            <String fx:value="button-outlined" />
+         </styleClass>
+      </Button>
    </children>
 </AnchorPane>

@@ -37,8 +37,8 @@ public class WelcomeController {
     @FXML
     private Hyperlink registerButton;
 
-    private final FxmlCacher login_loader = new FxmlCacher("login-view.fxml");
-    private final FxmlCacher register_loader = new FxmlCacher("register-view.fxml");
+    private final FxmlCacher login_loader = new FxmlCacher("logon/login-view.fxml");
+    private final FxmlCacher register_loader = new FxmlCacher("register/register-view.fxml");
 
     @FXML
     void showLogin(ActionEvent event) {
@@ -56,30 +56,6 @@ public class WelcomeController {
         logonButton.setContentDisplay(ContentDisplay.RIGHT);
         Timeline welcomeAnimation = Animations.fadeIn(welcomePane, Duration.seconds(3));
         welcomeAnimation.playFromStart();
-        preloadLogin();
-        preloadRegister();
-
     }
-
-    void preloadLogin(){
-        try {
-            FXMLLoader fxmlLoader_login = new FXMLLoader(getClass().getResource("login-view.fxml"));
-            logonPane = fxmlLoader_login.load();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
-    void preloadRegister(){
-        try {
-            FXMLLoader fxmlLoader_register = new FXMLLoader(getClass().getResource("register-view.fxml"));
-            registerPane = fxmlLoader_register.load();
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-
 }
 
