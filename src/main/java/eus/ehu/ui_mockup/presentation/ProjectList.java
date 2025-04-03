@@ -11,49 +11,93 @@ import javafx.scene.control.TitledPane;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.text.Text;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.ListIterator;
 
 
 public class ProjectList {
 
     private List<Project> projects;
 
+    ListIterator<Project> iterator;
+
     private FxmlCacher cacher;
 
     public ProjectList(List<Project> project_list) {
         this.projects = project_list;
+        this.iterator = projects.listIterator();
     }
 
-    VBox loadProjectList(){
 
-        ButtonBar buttonBar = new ButtonBar();
+    /*
+
+    public List<Project> iteratePrevProjects(){
+
+        int i = 0;
+        int next_remaining_elements = projects.size() - iterator.nextIndex()-1;
+
+        List<Project> prev_projects = new ArrayList<>();
+
+        iterator = projects.listIterator(iterator.nextIndex() - 5);
+
+        while (iterator.hasPrevious() && i < 5) {
+                prev_projects.addFirst(iterator.previous());
+                ++i;
+        }
+
+        iterator = projects.listIterator(iterator.nextIndex() + 5);
+
+
+        return prev_projects;
+    }
+
+
+    public List<Project> iterateNextProjects(){
+        int i = 0;
+        List<Project> next_projects = new ArrayList<>();
+
+            while (iterator.hasNext() && i < 5) {
+                next_projects.add(iterator.next());
+                ++i;
+            }
+
+        return next_projects;
+    }
+    */
+
+    public List<Project> iterateProjectPages(int page, int per_page) {
+        int i = page*per_page;
+        List<Project> project_list = new ArrayList<>();
+        while(i < projects.size() && i<(page*per_page)+per_page) {
+            project_list.add(projects.get(i));
+            ++i;
+        }
+        return project_list;
+    }
+
+    VBox loadProjectList(AnchorPane anchor_pane, StackPane stack_pane, int page, int per_page) {
 
         VBox content = new VBox();
 
-        Label info = new Label("Description: Analisi Matematikoa \n" +
-                "Created: 2025-03-14\n" +
-                "Last Modified: 2025-03-16\n" +
-                "Subject: Analisi Matematikoa\n");
-        info.setStyle("-fx-padding: 0 0 12 0");
-
-        content.getChildren().addAll(info,buttonBar);
+        List<Project> projects = iterateProjectPages(page, per_page);
+        for (Project project : projects) {
+            ProjectEntry proekt = new ProjectEntry(project,anchor_pane,stack_pane);
+            content.getChildren().addAll(proekt.getProjectEntryPane());
+        }
 
 
+        content.setAlignment(Pos.CENTER);
+        content.setSpacing(10);
 
-
-        Project p = new Project();
-        p.setName("Prueba DEBUG DEBUG DEBUG");
-        // ProjectEntry entry = new ProjectEntry(p);
-        VBox box = new VBox();
-        box.setAlignment(Pos.CENTER);
-        box.setSpacing(16);
         // box.getChildren().addAll(entry.getProjectEntryPane());
-        return box;
+        return content;
     }
 
      public class ProjectEntry {
@@ -79,20 +123,25 @@ public class ProjectList {
         private Label subject = new Label();
 
         @FXML
-        private ModalFactory editModal = new ModalFactory("edit-project-view.fxml");
+        private ModalFactory editModal = new ModalFactory("projects/edit-project-view.fxml");
 
         @FXML
-        private ModalFactory deleteModal = new ModalFactory("edit-project-view.fxml");
+        private ModalFactory deleteModal = new ModalFactory("projects/edit-project-view.fxml");
 
         public ProjectEntry(Project p, AnchorPane anchor_pane, StackPane stack_pane) {
 
+            // Maybe we can use bindings to resize our content
+            // and achieve a responsive design.............
 
             stack_pane.getChildren().addAll(editModal.getModalPane(),deleteModal.getModalPane());
 
-            description.setWrapText(true);
+            VBox entry_content = new VBox();
+
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
             name.setText(p.getName());
             description.setText(p.getDescription());
+            description.setWrapText(true);
+            description.setPrefWidth(entry_content.getPrefWidth());
             createdAt.setText("Created at: "+formatter.format(p.getCreatedAt()));
             lastModified.setText("Last modified at: "+formatter.format(p.getUpdatedAt()));
             subject.setText("#"+p.getSubject());
@@ -116,7 +165,7 @@ public class ProjectList {
 
             buttons.getButtons().addAll(openButton, editButton, deleteButton);
 
-            VBox entry_content = new VBox();
+
             entry_content.setAlignment(Pos.CENTER_LEFT);
             entry_content.setSpacing(10);
             entry_content.getChildren().addAll(description,
@@ -137,7 +186,7 @@ public class ProjectList {
          }
 
          void openProject(AnchorPane pane) {
-            cacher = new FxmlCacher("project-view.fxml");
+            cacher = new FxmlCacher("projects/project-view.fxml");
             cacher.loadContent(pane);
          }
 

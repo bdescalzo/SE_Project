@@ -50,9 +50,9 @@ public class RegisterController {
 
     private BInterface bInterface = new BusinessLogic();
 
-    private FxmlCacher cacher = new FxmlCacher("projectlist-view.fxml");
+    private FxmlCacher cacher = new FxmlCacher("projects/projectlist-view.fxml");
 
-    private ModalFactory modal = new ModalFactory("register-error.fxml");
+    private ModalFactory modal = new ModalFactory("register/register-error.fxml");
     @FXML
     void register(ActionEvent event) {
         if(passField.getText().equals(passFieldConfirm.getText())) {

@@ -54,11 +54,11 @@ public class LoginController {
     @FXML
     private Button notifBtn;
 
-    ModalFactory newModal = new ModalFactory("login-error.fxml");
+    ModalFactory newModal = new ModalFactory("logon/login-error.fxml");
 
     BInterface bizLog = new BusinessLogic();
 
-    private final FxmlCacher project_loader = new FxmlCacher("projectlist-view.fxml");
+    private final FxmlCacher project_loader = new FxmlCacher("projects/projectlist-view.fxml");
 
     @FXML
     void login(ActionEvent event) {

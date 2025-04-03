@@ -3,6 +3,8 @@ package eus.ehu.ui_mockup.presentation;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.web.WebEngine;
+import javafx.scene.web.WebView;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
@@ -52,6 +54,9 @@ public class ProjectController {
     private ToggleGroup chatToggleGroup = new ToggleGroup();
 
     @FXML
+    private WebView chatWindow;
+
+    @FXML
     void initialize() {
         sideBarButton.setGraphic(new FontIcon(Material2AL.DEHAZE));
         addFileButton.setGraphic(new FontIcon(Material2AL.FILE_UPLOAD));
@@ -65,5 +70,9 @@ public class ProjectController {
         opt2.setToggleGroup(chatToggleGroup);
         opt3.setToggleGroup(chatToggleGroup);
         opt4.setToggleGroup(chatToggleGroup);
+
+        WebEngine details = chatWindow.getEngine();
+        details.load("https://whatmyuseragent.com/");
+
     }
 }
