@@ -10,6 +10,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.TextFlow;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -25,47 +26,13 @@ public class ProjectList {
 
     private FxmlCacher cacher;
 
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(ProjectList.class);
+
     public ProjectList(List<Project> project_list) {
         this.projects = project_list;
         this.iterator = projects.listIterator();
     }
 
-
-    /*
-
-    public List<Project> iteratePrevProjects(){
-
-        int i = 0;
-        int next_remaining_elements = projects.size() - iterator.nextIndex()-1;
-
-        List<Project> prev_projects = new ArrayList<>();
-
-        iterator = projects.listIterator(iterator.nextIndex() - 5);
-
-        while (iterator.hasPrevious() && i < 5) {
-                prev_projects.addFirst(iterator.previous());
-                ++i;
-        }
-
-        iterator = projects.listIterator(iterator.nextIndex() + 5);
-
-
-        return prev_projects;
-    }
-
-
-    public List<Project> iterateNextProjects(){
-        int i = 0;
-        List<Project> next_projects = new ArrayList<>();
-
-            while (iterator.hasNext() && i < 5) {
-                next_projects.add(iterator.next());
-                ++i;
-            }
-
-        return next_projects;
-    }
-    */
 
     public List<Project> iterateProjectPages(int page, int per_page) {
         int i = page*per_page;
@@ -85,9 +52,6 @@ public class ProjectList {
 
         List<Project> projects = iterateProjectPages(page, per_page);
 
-        Stage stage = (Stage) content_pane.getScene().getWindow();
-
-
 
         for (Project project : projects) {
             ProjectEntry proekt = new ProjectEntry(project,content_pane,stack_pane);
@@ -100,7 +64,6 @@ public class ProjectList {
         content.setAlignment(Pos.CENTER);
         content.setSpacing(16);
 
-        // box.getChildren().addAll(entry.getProjectEntryPane());
         return content;
     }
 
@@ -211,13 +174,13 @@ public class ProjectList {
 
          void editProject(StackPane pane) {
             Project.setCurrent_UUID(cur_project.getUUID());
-            System.out.println("Selected to Edit Project with UUID = "+ Project.getCurrent_UUID());
+            log.info("Selected to Edit Project with UUID = "+ Project.getCurrent_UUID());
             editModal.openModal(pane);
          }
 
          void deleteProject(StackPane pane) {
             Project.setCurrent_UUID(cur_project.getUUID());
-            System.out.println("Selected to Delete Project with UUID = "+ Project.getCurrent_UUID());
+            log.info("Selected to Delete Project with UUID = "+ Project.getCurrent_UUID());
             deleteModal.openModal(pane);
          }
 

@@ -8,7 +8,7 @@ import java.util.UUID;
 
 public class BusinessLogic implements BInterface{
 
-    DBController db = new DBController();
+    static DBController db = new DBController();
 
     @Override
     public boolean verifyUser(String username, String password) {
@@ -16,8 +16,8 @@ public class BusinessLogic implements BInterface{
     }
 
     @Override
-    public boolean createUser(String username, String password) {
-        return db.createUser(username, password);
+    public void createUser(String username, String password) {
+        db.createUser(username, password);
     }
 
     @Override

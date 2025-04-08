@@ -7,7 +7,7 @@ import java.util.UUID;
 
 public interface BInterface {
     boolean verifyUser(String username, String password);
-    boolean createUser(String username, String password);
+    void createUser(String username, String password);
     List<Project> retrieveProjects(UUID id);
     boolean createProject(UUID user_id, Project project);
     boolean editProject(UUID id, String name, String description);

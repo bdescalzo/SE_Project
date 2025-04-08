@@ -75,6 +75,7 @@ public class ProjectListController {
     final private int projects_per_page = 5;
 
 
+
     public void setStage(Stage stage) {
         this.stage = stage;
     }
@@ -175,7 +176,7 @@ public class ProjectListController {
         } else {
 
             VBox no_projects = new VBox();
-            no_projects.setAlignment(Pos.TOP_CENTER);
+            no_projects.setAlignment(Pos.CENTER);
 
             Label empty_list_message = new Label("No projects found! Let's create our first project");
             empty_list_message.setFont(new Font(20));
@@ -185,7 +186,7 @@ public class ProjectListController {
             empty_list_message.setTextAlignment(TextAlignment.CENTER);
 
             no_projects.getChildren().addAll(empty_list_message,create_options);
-
+            // projectViewPane.getChildren().addFirst(no_projects);
             projectViewPane.add(no_projects,0,1);
         }
 
@@ -195,6 +196,7 @@ public class ProjectListController {
         projectViewPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
             scene = newScene;
             scene.windowProperty().addListener((obs1, oldScene1, newScene1) -> {
+
                 stage = (Stage) projectViewPane.getScene().getWindow();
 
                 stage.setMinHeight(520);

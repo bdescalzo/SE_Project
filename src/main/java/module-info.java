@@ -8,6 +8,7 @@ module eus.ehu.TxikIA {
     requires jakarta.persistence;
     requires org.hibernate.orm.core;
     requires javafx.web;
+    requires org.apache.logging.log4j;
 
 
     opens eus.ehu.TxikIA.domain to org.hibernate.orm.core, javafx.base;

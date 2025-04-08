@@ -13,7 +13,6 @@ public class RemoveProjectController {
 
     @FXML
     void deleteProject(ActionEvent event) {
-        System.out.println("Proekt = "+Project.getCurrent_UUID());
         blogic.deleteProject(User.getId_static(),Project.getCurrent_UUID());
     }
 
