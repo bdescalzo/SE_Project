@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.Pagination?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="projectViewPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="434.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/21.0.2" fx:controller="eus.ehu.TxikIA.presentation.ProjectListController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints maxHeight="202.0" minHeight="10.0" prefHeight="54.0" valignment="TOP" vgrow="ALWAYS" />
+    <RowConstraints maxHeight="380.0" minHeight="10.0" prefHeight="380.0" vgrow="ALWAYS" />
+  </rowConstraints>
+   <children>
+      <Label fx:id="welcomeMessage" alignment="CENTER" contentDisplay="CENTER" prefHeight="34.0" prefWidth="362.0" textFill="#6b6868" GridPane.halignment="CENTER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+         <font>
+            <Font size="28.0" />
+         </font>
+         <GridPane.margin>
+            <Insets />
+         </GridPane.margin>
+      </Label>
+      <MenuButton fx:id="userButton" mnemonicParsing="false" GridPane.halignment="RIGHT">
+         <items>
+            <MenuItem mnemonicParsing="false" text="Account" />
+            <MenuItem mnemonicParsing="false" text="Log Out" />
+         </items>
+         <styleClass>
+            <String fx:value="button-outlined" />
+            <String fx:value="accent" />
+            <String fx:value="flat" />
+            <String fx:value="no-arrow" />
+            <String fx:value="circled" />
+         </styleClass>
+         <GridPane.margin>
+            <Insets right="10.0" top="10.0" />
+         </GridPane.margin>
+      </MenuButton>
+      <Pagination fx:id="projectPager" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="364.0" prefWidth="555.0" styleClass="bullet" visible="false" GridPane.halignment="CENTER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="ALWAYS" />
+      <StackPane fx:id="modalArea" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="540.0" prefWidth="600.0" visible="false" GridPane.halignment="CENTER" GridPane.rowSpan="3" GridPane.valignment="CENTER">
+         <children>
+            <HBox alignment="CENTER" prefHeight="425.0" prefWidth="600.0" />
+         </children>
+      </StackPane>
+   </children>
+</GridPane>

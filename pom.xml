@@ -5,9 +5,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>eus.ehu</groupId>
-    <artifactId>UI_Mockup</artifactId>
-    <version>0.0.1-Dev</version>
-    <name>UI_Mockup</name>
+    <artifactId>TxikIA</artifactId>
+    <version>0.0.6-Dev</version>
+    <name>TxikIA</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -101,7 +101,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>eus.ehu.ui_mockup/eus.ehu.ui_mockup.presentation.UIMockup</mainClass>
+                            <mainClass>eus.ehu.TxikIA/eus.ehu.TxikIA.presentation.UIMockup</mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
                             <jlinkImageName>app</jlinkImageName>

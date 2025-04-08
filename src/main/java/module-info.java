@@ -1,4 +1,4 @@
-module eus.ehu.ui_mockup {
+module eus.ehu.TxikIA {
     requires javafx.fxml;
 
     requires org.kordamp.ikonli.javafx;
@@ -10,7 +10,7 @@ module eus.ehu.ui_mockup {
     requires javafx.web;
 
 
-    opens eus.ehu.ui_mockup.domain to org.hibernate.orm.core, javafx.base;
-    opens eus.ehu.ui_mockup.presentation to javafx.base, javafx.fxml;
-    exports eus.ehu.ui_mockup.presentation;
+    opens eus.ehu.TxikIA.domain to org.hibernate.orm.core, javafx.base;
+    opens eus.ehu.TxikIA.presentation to javafx.base, javafx.fxml;
+    exports eus.ehu.TxikIA.presentation;
 }
