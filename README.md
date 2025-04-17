@@ -26,7 +26,7 @@
   <h3>The errors made in Sprint 1 have been fixed. Also the information and documentation section of the Project has been completed with some ne documentation:
 </h3>
   <ul>
-    <li>Wording (description of the project).Sequence Diagram of the "Edit Project" Use Case.</li>
+    <li>Sequence Diagram of the "Edit Project" Use Case.</li>
     <li>More information about how are APIs implemented in the Project.</li>
   </ul>
   <h3>However,the main work has be done in the implementation section. This work has been made in a new Branch (called dev). This code implementation includes:</h3>
@@ -35,8 +35,9 @@
     <li>"Edit Project" Use Case implementation.</li>
     <li>"Delete Project" Use Case implementation.</li>
     <li>Log Out" Use Case implementation.</li>
+    <li>User onboarding implementation.</li>
     <li>Improvement of the UI look, functionality and usability.</li>
-    <li>Some implementation of API calls and prompt formalization for AIs.</li>
+    <li>Some implementation of API calls, functionalities and prompt formalization.</li>
   </ul>  
 
 
