@@ -1,8 +1,12 @@
 package eus.ehu.TxikIA.business_logic;
 
 import eus.ehu.TxikIA.data_access.DBController;
+import eus.ehu.TxikIA.domain.ExplanationOutput;
+import eus.ehu.TxikIA.domain.NormalizedRequest;
 import eus.ehu.TxikIA.domain.Project;
+import eus.ehu.TxikIA.llm_handler.APIRequestHandler;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -38,5 +42,13 @@ public class BusinessLogic implements BInterface{
         return db.deleteProject(user_id, project_id);
     }
 
+    public NormalizedRequest getNormalizedRequest(String prompt) {
+        return APIRequestHandler.normalizePrompt(prompt, null);
+    }
 
+    public String getExplanation(NormalizedRequest request) {
+        // TODO: Implement retrieval of past actions to send to the request handler, and storing the summary from this request to DB
+        ExplanationOutput output = APIRequestHandler.getExplanation(request, "");
+        return output.get_full_answer();
+    }
 }

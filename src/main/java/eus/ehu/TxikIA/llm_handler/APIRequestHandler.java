@@ -1,11 +1,13 @@
 package eus.ehu.TxikIA.llm_handler;
 
+import eus.ehu.TxikIA.domain.ExplanationOutput;
 import eus.ehu.TxikIA.domain.NormalizedRequest;
 import eus.ehu.TxikIA.domain.SystemPrompts;
 import okhttp3.*;
 import com.google.gson.*;
 
 import java.io.FileReader;
+import java.util.concurrent.TimeUnit;
 
 public class APIRequestHandler {
 
@@ -30,6 +32,7 @@ public class APIRequestHandler {
             return new SystemPrompts();
         }
     }
+
     public static NormalizedRequest normalizePrompt(String prompt, String doc) {
 
         String userPrompt = prompt + (doc != null ? (" CONTENT_FROM_ATTACHED_DOCUMENT" + doc) : " NO_DOCUMENT_ATTACHED");
@@ -41,9 +44,19 @@ public class APIRequestHandler {
 
         // Deserialize the response into NormalizationLLMRequest object
         return gson.fromJson(normalizedPrompt, NormalizedRequest.class);
+    }
 
+    public static ExplanationOutput getExplanation(NormalizedRequest request, String past_context) {
+        // Call the Deepseek API with the explanation system prompt
+        // TODO: Implement code generation on chat
+        String userPrompt = request.getFormalized_request() + " PAST_CONTEXT " + past_context + " GENERATED_CODE " +" No code generated";
+        System.out.println("This is the user prompt: " + userPrompt);
+        String explanation = deepseekRequest(systemPrompts.get("explanation_prompt"), userPrompt, "reasoner");
 
-
+        System.out.println("This is the explanation: " + explanation);
+        // Deserialize the response into ExplanationOutput object
+        Gson gson = new Gson();
+        return gson.fromJson(explanation, ExplanationOutput.class);
     }
 
     // Main only for testing purposes
@@ -83,8 +96,12 @@ public class APIRequestHandler {
 
         payload.add("messages", messages);
 
-        // Initialize OkHttp client
-        OkHttpClient client = new OkHttpClient();
+        // Custom OkHttpClient: Otherwise, the request times out
+        OkHttpClient client = new OkHttpClient.Builder()
+                .connectTimeout(120, TimeUnit.SECONDS) // Increase connection timeout
+                .readTimeout(120, TimeUnit.SECONDS)    // Increase read timeout
+                .writeTimeout(120, TimeUnit.SECONDS)   // Increase write timeout
+                .build();
 
         // Build the request
         Request request = new Request.Builder()
