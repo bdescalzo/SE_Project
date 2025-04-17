@@ -17,7 +17,7 @@
 />
 <head>
     <meta charset="UTF-8">
-    <title>Working on it!!!!</title>
+    <title>Math Assistant Chat</title>
 </head>
 <script type="module">
     import { LaTeXJSComponent } from "https://cdn.jsdelivr.net/npm/latex.js/dist/latex.mjs"
@@ -25,78 +25,385 @@
 </script>
 
 <style>
+    html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+        font-family: 'Roboto', sans-serif;
+        background-color: #f5f5f5;
+        overflow: hidden; /* Prevent double scrollbars */
+        font-size: 14px; /* Less dramatic reduction from default ~16px */
+    }
+
+    .chat-container {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: 100%;
+        overflow-y: auto; /* Enable vertical scrolling */
+        padding: 16px; /* Reduced from 20px */
+        box-sizing: border-box;
+    }
+
+    .message-wrapper {
+        display: flex;
+        width: 100%;
+        margin-bottom: 12px; /* Reduced from 15px */
+    }
+
+    .user-wrapper {
+        justify-content: flex-end;
+    }
+
+    .llm-wrapper {
+        justify-content: flex-start;
+    }
+
+    .message {
+        max-width: 80%;
+        padding: 12px; /* Reduced from 15px */
+        border-radius: 15px; /* Reduced from 18px */
+        position: relative;
+        line-height: 1.45; /* Reduced from 1.5 */
+    }
+
+    .user-message {
+        background-color: #1266f1;
+        color: white;
+    }
+
+    .llm-message {
+        background-color: #e4e6eb;
+        color: #050505;
+        width: 80%; /* Fixed width to prevent overflow issues */
+    }
+
+    /* Make sure LaTeX containers respect the parent bounds */
+    latex-js {
+        display: block;
+        max-width: 100%;
+        overflow-x: auto;
+        transform: scale(0.85); /* Scale down LaTeX - less dramatic */
+        transform-origin: left top;
+        margin-bottom: -15%; /* Compensate for the scaling */
+    }
 
     .formula {
+        display: block;
         width: 100%;
-        object-fit: cover;
-        justify-content: center;
-    }
-    .graph {
-        width: 0;
-        object-fit: cover;
-        justify-content: center;
+        max-width: 100%;
+        margin: 8px 0; /* Reduced from 10px */
     }
 
-    .container {
-        display: grid;
+    .graph {
+        display: block;
+        width: 100%;
+        max-width: 100%;
+        margin: 8px 0; /* Reduced from 10px */
+        overflow-x: auto;
+    }
+
+    /* Button styling */
+    .btn-success {
+        margin-top: 8px; /* Reduced from 10px */
+        font-size: 0.85rem; /* Smaller button text */
+        padding: 0.4rem 0.8rem; /* Smaller button padding */
+    }
+
+    /* For LaTeX rendering */
+    latex-js > div {
+        max-width: 100%;
+        margin: 0 auto;
+    }
+
+    /* Scale down icons */
+    .far, .fas {
+        font-size: 0.85rem;
+    }
+
+    /* Scale MDB components */
+    .btn {
+        --mdb-btn-padding-top: 0.4rem;
+        --mdb-btn-padding-bottom: 0.4rem;
+        --mdb-btn-padding-x: 0.8rem;
+        --mdb-btn-font-size: 0.85rem;
+    }
+
+    /* Reduce paragraph margins */
+    p {
+        margin-top: 0.4rem;
+        margin-bottom: 0.4rem;
+    }
+
+    /* Thinking bubble animation */
+    @keyframes blink {
+        0% { opacity: 0.2; }
+        20% { opacity: 1; }
+        100% { opacity: 0.2; }
+    }
+
+    .thinking-bubble {
+        display: flex;
+        align-items: center;
+        padding: 10px 16px;
+        background-color: #e4e6eb;
+        border-radius: 15px;
+        margin-bottom: 12px;
+        width: fit-content;
+        max-width: 40%;
+    }
+
+    .thinking-dot {
+        width: 8px;
+        height: 8px;
+        background-color: #777;
+        border-radius: 50%;
+        margin: 0 3px;
+        animation: blink 1.4s infinite linear;
+    }
+
+    .thinking-dot:nth-child(2) {
+        animation-delay: 0.2s;
+    }
+
+    .thinking-dot:nth-child(3) {
+        animation-delay: 0.4s;
+    }
+
+    /* Fixed textarea for user input */
+    .input-container {
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 10px;
+        background-color: #fff;
+        border-top: 1px solid #e0e0e0;
+        display: flex;
+        align-items: center;
+    }
+
+    #userInput {
+        flex-grow: 1;
+        border: 1px solid #ccc;
+        border-radius: 20px;
+        padding: 10px 15px;
+        margin-right: 10px;
+        font-family: 'Roboto', sans-serif;
+        resize: none;
+        height: 40px;
+        max-height: 120px;
+        overflow-y: auto;
+    }
+
+    #sendButton {
+        background-color: #1266f1;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
         align-items: center;
         justify-content: center;
-        height: 500px;
-        /* border: 3px solid green; */
+        cursor: pointer;
+    }
+
+    #sendButton:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
     }
 </style>
 
 <body>
 <script type="text/javascript"
         src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/8.2.0/mdb.umd.min.js">
-
 </script>
 
-<container class="container">
-    <h1>Working on it!!!!</h1>
-    <latex-js class="formula">
-        $$
-        \int_{x}^{24} e^{x^{2}} = \sqrt[3]{5}
-        $$
-    </latex-js>
-    <br>
-    <latex-js class="graph">
-        \frame{\setlength{\unitlength}{1mm}
-        \begin{picture}(60, 50)
-        \put(20,30){\circle{1}}
-        \put(20,30){\circle{2}}
-        \put(20,30){\circle{4}}
-        \put(20,30){\circle{8}}
-        \put(20,30){\circle{16}}
-        \put(20,30){\circle{32}}
-        \put(40,30){\circle{1}}
-        \put(40,30){\circle{2}}
-        \put(40,30){\circle{3}}
-        \put(40,30){\circle{4}}
-        \put(40,30){\circle{5}}
-        \put(40,30){\circle{6}}
-        \put(40,30){\circle{7}}
-        \put(40,30){\circle{8}}
-        \put(40,30){\circle{9}}
-        \put(40,30){\circle{10}}
-        \put(40,30){\circle{11}}
-        \put(40,30){\circle{12}}
-        \put(40,30){\circle{13}}
-        \put(40,30){\circle{14}}
-        \put(15,10){\circle*{1}}
-        \put(20,10){\circle*{2}}
-        \put(25,10){\circle*{3}}
-        \put(30,10){\circle*{4}}
-        \put(35,10){\circle*{5}}
-        \end{picture}}
-    </latex-js>
-    <br>
-    <button type="button" class="btn btn-success" data-mdb-ripple-init data-mdb-ripple-color="dark">
-        <i class="far fa-copy"></i>
-        Get SageMath code!
-    </button>
-    <br>
+<div class="chat-container" id="chatContainer">
+    <!-- Messages will be added here -->
+</div>
 
-</container>
+
+<!-- REPLACEMENT SCRIPT SECTION ONLY -->
+<script>
+    // Track initialization state
+    let isInitialized = false;
+    let pendingResponse = false;
+
+    function escapeHtml(unsafe) {
+        return unsafe
+            .replace(/&/g, "&amp;")
+            .replace(/</g, "&lt;")
+            .replace(/>/g, "&gt;")
+            .replace(/"/g, "&quot;")
+            .replace(/'/g, "&#039;");
+    }
+
+    function addUserMessage(messageText) {
+        const chatContainer = document.getElementById('chatContainer');
+
+        const wrapperDiv = document.createElement('div');
+        wrapperDiv.className = 'message-wrapper user-wrapper';
+
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message user-message';
+
+        if (messageText.trim().startsWith('<') && messageText.includes('>')) {
+            messageDiv.innerHTML = messageText;
+        } else {
+            messageDiv.textContent = messageText;
+        }
+
+        wrapperDiv.appendChild(messageDiv);
+        chatContainer.appendChild(wrapperDiv);
+
+        showThinkingBubble();
+
+        setTimeout(() => {
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, 50);
+    }
+
+    function showThinkingBubble() {
+        const chatContainer = document.getElementById('chatContainer');
+        removeThinkingBubble();
+
+        const wrapperDiv = document.createElement('div');
+        wrapperDiv.className = 'message-wrapper llm-wrapper';
+        wrapperDiv.id = 'thinkingBubble';
+
+        const bubbleDiv = document.createElement('div');
+        bubbleDiv.className = 'thinking-bubble';
+
+        for (let i = 0; i < 3; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'thinking-dot';
+            bubbleDiv.appendChild(dot);
+        }
+
+        wrapperDiv.appendChild(bubbleDiv);
+        chatContainer.appendChild(wrapperDiv);
+
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+
+    function removeThinkingBubble() {
+        const thinkingBubble = document.getElementById('thinkingBubble');
+        if (thinkingBubble) {
+            thinkingBubble.remove();
+        }
+    }
+
+    function initializationResponse() {
+        setTimeout(() => {
+            removeThinkingBubble();
+
+            if (!isInitialized) {
+                addLLMMessage(
+                    `<p>Our great formula is</p>
+                    <latex-js class="formula">
+                        $$
+                        \\int_{x}^{24} e^{x^{2}} = \\sqrt[3]{5}
+                        $$
+                    </latex-js>
+                    <p>. Comply, or die.</p>
+
+                    <latex-js class="graph">
+                        \\frame{\\setlength{\\unitlength}{1mm}
+                        \\begin{picture}(60, 50)
+                        \\put(20,30){\\circle{1}}
+                        \\put(20,30){\\circle{2}}
+                        \\put(20,30){\\circle{4}}
+                        \\put(20,30){\\circle{8}}
+                        \\put(20,30){\\circle{16}}
+                        \\put(20,30){\\circle{32}}
+                        \\put(40,30){\\circle{1}}
+                        \\put(40,30){\\circle{2}}
+                        \\put(40,30){\\circle{3}}
+                        \\put(40,30){\\circle{4}}
+                        \\put(40,30){\\circle{5}}
+                        \\put(40,30){\\circle{6}}
+                        \\put(40,30){\\circle{7}}
+                        \\put(40,30){\\circle{8}}
+                        \\put(40,30){\\circle{9}}
+                        \\put(40,30){\\circle{10}}
+                        \\put(40,30){\\circle{11}}
+                        \\put(40,30){\\circle{12}}
+                        \\put(40,30){\\circle{13}}
+                        \\put(40,30){\\circle{14}}
+                        \\put(15,10){\\circle*{1}}
+                        \\put(20,10){\\circle*{2}}
+                        \\put(25,10){\\circle*{3}}
+                        \\put(30,10){\\circle*{4}}
+                        \\put(35,10){\\circle*{5}}
+                        \\end{picture}}
+                    </latex-js>
+
+                    <button type="button" class="btn btn-success" data-mdb-ripple-init data-mdb-ripple-color="dark">
+                        <i class="far fa-copy"></i>
+                        GET SAGEMATH CODE!
+                    </button>`
+                );
+
+                setTimeout(() => {
+                    addUserMessage("Can you also explain the meaning of this formula in simpler terms?");
+
+                    setTimeout(() => {
+                        removeThinkingBubble();
+                        addLLMMessage(
+                            `<p>Of course! This formula represents a definite integral of e raised to x squared.
+                            The unusual thing about this integral is that it doesn't have a closed-form solution
+                            in terms of elementary functions.</p>
+
+                            <p>Here's another way to visualize the problem:</p>
+
+                            <latex-js class="formula">
+                                $$
+                                \\int e^{x^2} dx = \\text{No elementary solution}
+                                $$
+                            </latex-js>
+
+                            <p>The equality shown in the original formula is just for demonstration purposes.</p>`
+                        );
+
+                        isInitialized = true;
+                        pendingResponse = false;
+                    }, 2000);
+                }, 1000);
+            }
+        }, 2000);
+    }
+
+    function addLLMMessage(messageText) {
+        removeThinkingBubble();
+        const chatContainer = document.getElementById('chatContainer');
+
+        const wrapperDiv = document.createElement('div');
+        wrapperDiv.className = 'message-wrapper llm-wrapper';
+
+        const messageDiv = document.createElement('div');
+        messageDiv.className = 'message llm-message';
+        messageDiv.innerHTML = messageText;
+
+        wrapperDiv.appendChild(messageDiv);
+        chatContainer.appendChild(wrapperDiv);
+
+        setTimeout(() => {
+            const latexElements = messageDiv.querySelectorAll('latex-js');
+            latexElements.forEach(el => {
+                el.style.display = 'none';
+                void el.offsetHeight;
+                el.style.display = 'block';
+            });
+            chatContainer.scrollTop = chatContainer.scrollHeight;
+        }, 100);
+    }
+
+    // Initialize on DOM ready
+    document.addEventListener('DOMContentLoaded', function () {
+        initializationResponse(); // Start demo messages immediately
+    });
+</script>
 </body>
 </html>
