@@ -130,9 +130,10 @@ public class ProjectListController {
         List<Project> projects = bizLogic.retrieveProjects(User.getId_static());
         projectList = new ProjectList(projects);
 
+        projectPager.setStyle("-fx-arrows-visible: false");
 
         if(!projects.isEmpty()) {
-            projectPager.setStyle("-fx-arrows-visible: false");
+
 
             int page_number = (projects.size()/5)+1;
 
@@ -168,30 +169,35 @@ public class ProjectListController {
                 return page;
             });
 
-
-            projectPager.setVisible(true);
-
-
-
         } else {
 
-            VBox no_projects = new VBox();
-            no_projects.setAlignment(Pos.CENTER);
 
-            Label empty_list_message = new Label("No projects found! Let's create our first project");
-            empty_list_message.setFont(new Font(20));
-            empty_list_message.setTextFill(Color.web("#6b6868"));
-            empty_list_message.setWrapText(true);
-            empty_list_message.setPrefWidth(180);
-            empty_list_message.setTextAlignment(TextAlignment.CENTER);
+            projectPager.setPageFactory(index -> {
 
-            no_projects.getChildren().addAll(empty_list_message,create_options);
-            // projectViewPane.getChildren().addFirst(no_projects);
-            projectViewPane.add(no_projects,0,1);
+
+                projectPager.setMaxPageIndicatorCount(1);
+                projectPager.setPageCount(1);
+
+                VBox no_projects = new VBox();
+                no_projects.setAlignment(Pos.CENTER);
+
+                Label empty_list_message = new Label("No projects found! Let's create our first project");
+                empty_list_message.setFont(new Font(20));
+                empty_list_message.setTextFill(Color.web("#6b6868"));
+                empty_list_message.setWrapText(true);
+                empty_list_message.setPrefWidth(180);
+                empty_list_message.setTextAlignment(TextAlignment.CENTER);
+
+                no_projects.getChildren().addAll(empty_list_message,create_options);
+
+                return no_projects;
+            });
+            projectPager.setVisible(true);
         }
 
-        welcomeMessage.setText("Welcome back, "+ User.getUsername_static()+"!");
+        projectPager.setVisible(true);
 
+        welcomeMessage.setText("Welcome back, "+ User.getUsername_static()+"!");
 
         projectViewPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
             scene = newScene;
