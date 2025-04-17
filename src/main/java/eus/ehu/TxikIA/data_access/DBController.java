@@ -48,6 +48,10 @@ public class DBController {
             User db_user = query.getSingleResult();
             User.setId_static(db_user.getId());
             User.set_username_static(user);
+            db.getTransaction().begin();
+            db_user.setLastLogin(LocalDateTime.now());
+            db.persist(db_user);
+            db.getTransaction().commit();
             return true;
         } catch (NoResultException e) {
             log.error("Can't log in as User "+user);
@@ -61,6 +65,7 @@ public class DBController {
         User dbUser = new User(user, password);
         try {
             db.getTransaction().begin();
+            dbUser.setLastLogin(dbUser.getCreatedAt());
             db.persist(dbUser);
             db.getTransaction().commit();
             User.setId_static(dbUser.getId());
@@ -69,6 +74,11 @@ public class DBController {
         catch (Exception e) {
             db.getTransaction().rollback();
         }
+    }
+
+    public boolean firstLogin(UUID user_id){
+        User user = db.find(User.class, user_id);
+        return user.getLastLogin()==user.getCreatedAt();
     }
 
     public List<Project> getProjects(UUID userId) {
@@ -122,4 +132,5 @@ public class DBController {
         System.out.println();
         return true;
     }
+
 }
