@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 
-public class ModalFactory {
+public class ModalBuilder {
 
     @FXML
     private ModalPane modalPane;
@@ -22,7 +22,7 @@ public class ModalFactory {
 
     private FxmlCacher cacher;
 
-    public ModalFactory(String fxmlFile) {
+    public ModalBuilder(String fxmlFile) {
         modalPane = new ModalPane();
         modalPane.setAlignment(Pos.CENTER);
         modalPane.usePredefinedTransitionFactories(null);

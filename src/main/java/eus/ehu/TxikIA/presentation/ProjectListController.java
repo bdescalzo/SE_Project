@@ -25,19 +25,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 public class ProjectListController {
+
     @FXML
     private GridPane projectViewPane;
 
     @FXML
-    private AnchorPane openedPane;
-
-
-    @FXML
-    private VBox emptyProjectList;
-
-    @FXML
     private Pagination projectPager;
-
 
     @FXML
     private MenuButton userButton;
@@ -47,9 +40,6 @@ public class ProjectListController {
 
     @FXML
     private StackPane modalArea;
-
-    @FXML
-    private Label emptyListMsg;
 
     @FXML
     private ButtonBar create_options = new ButtonBar();
@@ -70,16 +60,21 @@ public class ProjectListController {
 
     private ProjectList projectList ;
 
-    ModalFactory newModal = new ModalFactory("projects/create-project-view.fxml");
+
+    ModalBuilder logoutModal = new ModalBuilder("modals/inputs/logout-modal.fxml");
+
+    ModalBuilder newProjectModal = new ModalBuilder("projects/create-project-view.fxml");
+
 
     final private int projects_per_page = 5;
 
-
-
-    public void setStage(Stage stage) {
-        this.stage = stage;
+    
+    @FXML
+    void warnLogOut() {
+        logoutModal.openModal(modalArea);
     }
-
+    
+    
     @FXML
     void createSampleProject() {
         Project project = new Project();
@@ -94,7 +89,7 @@ public class ProjectListController {
     void createNewProject() {
         modalArea.prefWidthProperty().bind(stage.widthProperty());
         modalArea.prefHeightProperty().bind(stage.heightProperty());
-        newModal.openModal(modalArea);
+        newProjectModal.openModal(modalArea);
     }
 
     @FXML
@@ -119,7 +114,8 @@ public class ProjectListController {
         create_options.setPadding(new Insets(10,0,0,0));
 
 
-        modalArea.getChildren().add(newModal.getModalPane());
+        modalArea.getChildren().addAll(newProjectModal.getModalPane(),
+                                       logoutModal.getModalPane());
     }
 
     @FXML

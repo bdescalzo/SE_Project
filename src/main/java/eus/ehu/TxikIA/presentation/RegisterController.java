@@ -44,7 +44,7 @@ public class RegisterController {
 
     private FxmlCacher cacher = new FxmlCacher("projects/projectlist-view.fxml");
 
-    private ModalFactory modal = new ModalFactory("register/register-error.fxml");
+    private ModalBuilder modal = new ModalBuilder("register/register-error.fxml");
 
     private final FxmlCacher welcome_loader = new FxmlCacher("welcome-view.fxml");
 

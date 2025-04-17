@@ -43,12 +43,11 @@ public class DBController {
         TypedQuery<User> query = db.createQuery("select u from User u where u.username =:user and u.password = :password ", User.class);
         query.setParameter("user", user);
         query.setParameter("password", password);
-        log.info("Trying to log in as User"+user+"..........");
+        log.info("Verifying user "+user+"..........");
         try {
             User db_user = query.getSingleResult();
             User.setId_static(db_user.getId());
             User.set_username_static(user);
-            log.info("\033[0;32mUser " +User.getUsername_static()+" correctly logged in!! \033[0m");
             return true;
         } catch (NoResultException e) {
             log.error("Can't log in as User "+user);
