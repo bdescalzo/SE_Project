@@ -4,10 +4,12 @@ package eus.ehu.TxikIA.presentation;
 import atlantafx.base.theme.Styles;
 import eus.ehu.TxikIA.business_logic.BInterface;
 import eus.ehu.TxikIA.business_logic.BusinessLogic;
+import eus.ehu.TxikIA.domain.User;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
+import org.apache.logging.log4j.LogManager;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
@@ -33,8 +35,9 @@ public class LoginController {
     @FXML
     private Button backButton;
 
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(LoginController.class);
 
-    ModalFactory newModal = new ModalFactory("logon/login-error.fxml");
+    ModalBuilder newModal = new ModalBuilder("logon/login-error.fxml");
 
     BInterface bizLog = new BusinessLogic();
 
@@ -44,8 +47,9 @@ public class LoginController {
 
     @FXML
     void login(ActionEvent event) {
-
+        log.info("Trying to log in as User "+userField.getText()+"..........");
         if(bizLog.verifyUser(userField.getText(), passField.getText())) {
+            log.info("\033[0;32mUser " + User.getUsername_static()+" correctly logged in!! \033[0m");
             project_loader.loadContent(loginPane);
         } else {
             userField.pseudoClassStateChanged(Styles.STATE_DANGER, true);

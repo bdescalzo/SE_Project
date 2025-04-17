@@ -25,6 +25,11 @@ public class BusinessLogic implements BInterface{
     }
 
     @Override
+    public boolean firstLogin(UUID user_id) {
+        return db.firstLogin(user_id);
+    }
+
+    @Override
     public List<Project> retrieveProjects(UUID id) {
         return db.getProjects(id);
     }

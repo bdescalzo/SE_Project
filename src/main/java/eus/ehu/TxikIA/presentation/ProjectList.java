@@ -90,10 +90,10 @@ public class ProjectList {
         private Label subject = new Label();
 
         @FXML
-        private ModalFactory editModal = new ModalFactory("projects/edit-project-view.fxml");
+        private ModalBuilder editModal = new ModalBuilder("projects/edit-project-view.fxml");
 
         @FXML
-        private ModalFactory deleteModal = new ModalFactory("projects/delete-project-view.fxml");
+        private ModalBuilder deleteModal = new ModalBuilder("projects/delete-project-view.fxml");
 
         private Project cur_project;
 
@@ -158,9 +158,6 @@ public class ProjectList {
 
         }
 
-         public TitledPane getProjectEntryPane() {
-             return projectEntryPane;
-         }
 
          void openProject(Pane pane) {
             Stage stage = (Stage) buttons.getScene().getWindow();

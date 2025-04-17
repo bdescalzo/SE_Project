@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="179.0" prefWidth="250.0" spacing="40.0" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.TxikIA.presentation.LogoutController">
+   <Label text="Are you sure you want to log out?" textAlignment="CENTER" textFill="#6b6868" wrapText="true">
+      <font>
+         <Font size="25.0" />
+      </font>
+      <VBox.margin>
+         <Insets top="40.0" />
+      </VBox.margin>
+   </Label>
+   <Button fx:id="confirmLogoutButton" mnemonicParsing="false" onAction="#confirmLogout" text="Logout">
+      <styleClass>
+         <String fx:value="button-outlined" />
+         <String fx:value="danger" />
+      </styleClass>
+   </Button>
+</VBox>
