@@ -13,7 +13,8 @@ module eus.ehu.TxikIA {
     requires com.google.gson;
 
 
-    opens eus.ehu.TxikIA.domain to org.hibernate.orm.core, javafx.base;
+    opens eus.ehu.TxikIA.domain to org.hibernate.orm.core, javafx.base, com.google.gson;
     opens eus.ehu.TxikIA.presentation to javafx.base, javafx.fxml;
+
     exports eus.ehu.TxikIA.presentation;
 }
