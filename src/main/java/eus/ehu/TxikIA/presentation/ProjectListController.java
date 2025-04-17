@@ -3,7 +3,9 @@ package eus.ehu.TxikIA.presentation;
 import atlantafx.base.theme.Styles;
 import eus.ehu.TxikIA.business_logic.BInterface;
 import eus.ehu.TxikIA.business_logic.BusinessLogic;
+import eus.ehu.TxikIA.data_access.DBController;
 import eus.ehu.TxikIA.domain.Project;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
+import org.apache.logging.log4j.LogManager;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
@@ -60,11 +63,13 @@ public class ProjectListController {
 
     private ProjectList projectList ;
 
+    ModalBuilder onboardingModal = new ModalBuilder("modals/info/onboarding-modal.fxml");
 
     ModalBuilder logoutModal = new ModalBuilder("modals/inputs/logout-modal.fxml");
 
     ModalBuilder newProjectModal = new ModalBuilder("projects/create-project-view.fxml");
 
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(ProjectListController.class);
 
     final private int projects_per_page = 5;
 
@@ -115,11 +120,27 @@ public class ProjectListController {
 
 
         modalArea.getChildren().addAll(newProjectModal.getModalPane(),
-                                       logoutModal.getModalPane());
+                                       logoutModal.getModalPane(),
+                                        onboardingModal.getModalPane());
     }
 
     @FXML
     void initialize() {
+
+        projectViewPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
+            scene = newScene;
+            scene.windowProperty().addListener((obs1, oldScene1, newScene1) -> {
+
+                stage = (Stage) projectViewPane.getScene().getWindow();
+
+                stage.setMinHeight(520);
+                stage.setMinWidth(360);
+
+
+            });
+
+        });
+
 
         build_decoration();
 
@@ -128,10 +149,10 @@ public class ProjectListController {
 
         projectPager.setStyle("-fx-arrows-visible: false");
 
-        if(!projects.isEmpty()) {
 
+        if (!projects.isEmpty()) {
 
-            int page_number = (projects.size()/5)+1;
+            int page_number = (projects.size() / 5) + 1;
 
             projectPager.setMaxPageIndicatorCount(page_number);
             projectPager.setPageCount(page_number);
@@ -155,18 +176,15 @@ public class ProjectListController {
                         stage.setHeight(stage.getHeight() - 240);
                     }
                 });
-
                 projectPager.currentPageIndexProperty().addListener((obs, oldPage, newPage) -> {
-                   accordion.setExpandedPane(null);
+                    accordion.setExpandedPane(null);
                 });
-
 
 
                 return page;
             });
 
         } else {
-
 
             projectPager.setPageFactory(index -> {
 
@@ -184,29 +202,27 @@ public class ProjectListController {
                 empty_list_message.setPrefWidth(180);
                 empty_list_message.setTextAlignment(TextAlignment.CENTER);
 
-                no_projects.getChildren().addAll(empty_list_message,create_options);
+                no_projects.getChildren().addAll(empty_list_message, create_options);
 
                 return no_projects;
             });
-            projectPager.setVisible(true);
+            if (bizLogic.firstLogin(User.getId_static())) {
+                log.warn("This is the user's first login: Showing onboarding modal.....");
+                Platform.runLater(() -> {
+                    stage.setWidth(720);
+                    stage.setHeight(540);
+                    stage.setMinWidth(720);
+                    stage.setMinHeight(420);
+                    modalArea.prefWidthProperty().bind(stage.widthProperty());
+                    modalArea.prefHeightProperty().bind(stage.heightProperty());
+                    onboardingModal.openModal(modalArea);
+                });
+            }
         }
 
         projectPager.setVisible(true);
 
-        welcomeMessage.setText("Welcome back, "+ User.getUsername_static()+"!");
-
-        projectViewPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
-            scene = newScene;
-            scene.windowProperty().addListener((obs1, oldScene1, newScene1) -> {
-
-                stage = (Stage) projectViewPane.getScene().getWindow();
-
-                stage.setMinHeight(520);
-                stage.setMinWidth(360);
-
-            });
-        });
+        welcomeMessage.setText("Welcome back, " + User.getUsername_static() + "!");
 
     }
-
 }
