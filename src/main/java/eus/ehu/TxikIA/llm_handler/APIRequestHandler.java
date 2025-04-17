@@ -10,8 +10,8 @@ import java.io.FileReader;
 public class APIRequestHandler {
 
     /* In a real set-up, these shouldn't be hardcoded */
-    private static final String GEMINI_API_KEY = "AIzaSyBGA6hCDb5HA1jKntCyTqEB59ICsi5G47E";
-    private static final String DEEPSEEK_API_KEY = "sk-25d6d94dc1244f2ca1b4456290e5c1af";
+    private static final String GEMINI_API_KEY = "INSERT GEMINI KEY";
+    private static final String DEEPSEEK_API_KEY = "INSERT DEEPSEEK KEY";
     static SystemPrompts systemPrompts = loadSystemPrompts();;
 
     private static SystemPrompts loadSystemPrompts() {
