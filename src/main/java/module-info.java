@@ -9,6 +9,8 @@ module eus.ehu.TxikIA {
     requires org.hibernate.orm.core;
     requires javafx.web;
     requires org.apache.logging.log4j;
+    requires okhttp3;
+    requires com.google.gson;
 
 
     opens eus.ehu.TxikIA.domain to org.hibernate.orm.core, javafx.base;
