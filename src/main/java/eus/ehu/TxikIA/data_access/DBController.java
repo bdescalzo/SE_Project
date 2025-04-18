@@ -158,4 +158,13 @@ public class DBController {
         db.getTransaction().commit();
         System.out.println("hehe");
     }
+
+    public Project find(Class<Project> projectClass, UUID currentUuid) {
+        Project db_project = db.find(Project.class, currentUuid);
+        if (db_project == null) {
+            log.error("Project with UUID "+currentUuid+" not found");
+            return null;
+        }
+        return db_project;
+    }
 }
