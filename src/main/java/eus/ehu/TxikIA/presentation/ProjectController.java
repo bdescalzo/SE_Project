@@ -1,7 +1,9 @@
 package eus.ehu.TxikIA.presentation;
 
+import eus.ehu.TxikIA.domain.Message;
 import eus.ehu.TxikIA.domain.NormalizedRequest;
 import javafx.concurrent.Task;
+import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
@@ -14,6 +16,7 @@ import org.kordamp.ikonli.material2.Material2MZ;
 import eus.ehu.TxikIA.business_logic.BusinessLogic;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.List;
 
 import eus.ehu.TxikIA.llm_handler.APIRequestHandler;
 
@@ -70,9 +73,15 @@ public class ProjectController {
 
     @FXML
     public void sendUserPrompt(ActionEvent event) {
+        // Only proceed if the user has written something
+        if (chatInput.getText().isEmpty()) {
+            return;
+        }
+
         // Get the user message, and send it to the chat interface
         String userMessage = chatInput.getText();
         chatInput.clear();
+        sendButton.setDisable(true); // Prevent user messages until the LLM answer is received
         WebEngine details = chatWindow.getEngine();
         details.executeScript("addUserMessage('" + userMessage.replace("'", "\\'") + "');");
 
@@ -83,25 +92,23 @@ public class ProjectController {
                 // Normalize the LLM request
                 System.out.println("We are normalizing the request");
                 NormalizedRequest response = bl.getNormalizedRequest(userMessage);
-                System.out.println("Normalized request: " + response.toString());
                 String answer;
                 // TODO: Implement jumping to other features (quiz and question)
                 // If it is an explanation request, get the explanation
                 switch(response.getQuestion_type()) {
                     case "EXPLANATION":
-                        System.out.println("Thinking cap on!");
                         answer = bl.getExplanation(response);
                         break;
                     default:
-                        answer = "Sorry, I'm not sure how to help. Try again!";
+                        answer = bl.getErrorMessage();
                 }
 
-                System.out.println("Thinking cap off!");
                 return answer;
             }
         };
 
         task.setOnSucceeded(workerStateEvent -> {
+            sendButton.setDisable(false);
             String answer = task.getValue();
             // Add the LLM message to the interface
             System.out.println("We got this answer: " + answer);
@@ -129,5 +136,30 @@ public class ProjectController {
         WebEngine details = chatWindow.getEngine();
         URL url = this.getClass().getResource("webview"+"/"+ "index.html");
         details.load(url.toString());
+
+        // Load the chat history when the web engine is ready
+        details.getLoadWorker().stateProperty().addListener((obs, oldState, newState) -> {
+            if (newState == Worker.State.SUCCEEDED) {
+                loadMessages();
+            }
+        });
+    }
+
+    void loadMessages() {
+        WebEngine details = chatWindow.getEngine();
+        List<Message> messages = bl.getMessages();
+
+        // Load message history into UI
+        for (Message message : messages) {
+            System.out.println("MESSAGE: " + message.getContent());
+            boolean isUserMessage = message.isUserMessage();
+            String messageContent = message.getContent();
+            if (isUserMessage) {
+                details.executeScript("addUserMessage('" + messageContent.replace("'", "\\'") + "');");
+            }
+            else {
+                details.executeScript("addLLMMessage('" + messageContent.replace("'", "\\'") + "');");
+            }
+        }
     }
 }

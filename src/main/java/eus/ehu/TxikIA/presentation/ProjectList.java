@@ -160,7 +160,8 @@ public class ProjectList {
 
 
          void openProject(Pane pane) {
-            Stage stage = (Stage) buttons.getScene().getWindow();
+             Project.setCurrent_UUID(cur_project.getUUID());
+             Stage stage = (Stage) buttons.getScene().getWindow();
             stage.setMinWidth(600);
             stage.setMinHeight(480);
             stage.setWidth(600);
