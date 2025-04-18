@@ -138,25 +138,19 @@ public class DBController {
 
 
     public void addMessage(Message message) {
-        System.out.println("hehe");
-
         Project db_project = db.find(Project.class, Project.getCurrent_UUID());
 
         ChatSession chat = db_project.getChat();
-        System.out.println("hehe");
+
         message.setChatSession(chat);
 
         db.getTransaction().begin();
-        System.out.println("hehe");
 
         chat.addMessage(message);
-        System.out.println("hehe");
 
         db.persist(message);
-        System.out.println("hehe");
 
         db.getTransaction().commit();
-        System.out.println("hehe");
     }
 
     public Project find(Class<Project> projectClass, UUID currentUuid) {

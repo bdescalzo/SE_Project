@@ -54,25 +54,26 @@ public class BusinessLogic implements BInterface{
         // Build string containing the past context
         StringBuilder context = new StringBuilder();
         List<Message> messages = getMessages(); // Get all messages from the current project
-        // Build the context string
         for (Message message : messages) {
-            context.append("INTERACTION: ").append(message.getSummary()).append("\n");
+            if (!message.isUserMessage()) context.append("INTERACTION: ").append(message.getSummary()).append("\n");
         }
-        System.out.println("Context: " + context.toString());
-        try {
-            System.in.read();
-        } catch (Exception e) {};
+
+        // Call LLM to get an explanation from the request and the past context
         ExplanationOutput output = APIRequestHandler.getExplanation(request, context.toString());
-        db.addMessage(new Message(output.get_full_answer(), output.get_summary(), false)); // Add the assistant message to the chat history
+
+        // Store the answer in DB
+        db.addMessage(new Message(output.get_full_answer(), output.get_answer_context(), false));
         return output.get_full_answer();
     }
 
     public List<Message> getMessages() {
         // Get the current project
-        List<Message> messages = new ArrayList<>();
         Project project = db.find(Project.class, Project.getCurrent_UUID());
+
+        // Retrieve  all messages from current project
+        List<Message> messages = new ArrayList<>();
         messages.addAll(project.getChat().getMessages());
-        System.out.println(project.getChat() == null);
+
         return messages;
     }
 

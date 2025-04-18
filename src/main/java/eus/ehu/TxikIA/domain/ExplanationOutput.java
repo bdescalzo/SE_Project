@@ -2,7 +2,7 @@ package eus.ehu.TxikIA.domain;
 
 public class ExplanationOutput {
     private String full_answer;
-    private String summary;
+    private String answer_context;
 
     public ExplanationOutput() {
 
@@ -12,7 +12,7 @@ public class ExplanationOutput {
         return full_answer;
     }
 
-    public String get_summary() {
-        return summary;
+    public String get_answer_context() {
+        return answer_context;
     }
 }

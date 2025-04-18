@@ -24,7 +24,7 @@ public class Message {
     public Message(String userMessage, String summary, boolean isUserMessage) {
         this.content = userMessage;
         this.isUserMessage = isUserMessage;
-        this.summary = null;
+        this.summary = summary;
     }
 
     public Message() {
