@@ -83,7 +83,7 @@ public class ProjectController {
         chatInput.clear();
         sendButton.setDisable(true); // Prevent user messages until the LLM answer is received
         WebEngine details = chatWindow.getEngine();
-        details.executeScript("addUserMessage('" + userMessage.replace("'", "\\'") + "');");
+        addMessageToChat(userMessage, false);
 
         // Create a task to handle the LLM request (to avoid freezing the app)
         Task<String> task = new Task<>() {
@@ -112,7 +112,7 @@ public class ProjectController {
             String answer = task.getValue();
             // Add the LLM message to the interface
             System.out.println("We got this answer: " + answer);
-            details.executeScript("addLLMMessage('" + answer.replace("'", "\\'") + "');");
+            addMessageToChat(answer, true);
         });
 
         new Thread(task).start();
@@ -161,5 +161,26 @@ public class ProjectController {
                 details.executeScript("addLLMMessage('" + messageContent.replace("'", "\\'") + "');");
             }
         }
+    }
+
+    /**
+     *
+     * @param message The message to add in the chat
+     * @param llm True if the message is from the LLM, false if it is from the user
+     * Writes the message on the screen, by sending it to the HTML view
+     */
+    void addMessageToChat(String message, boolean llm) {
+        WebEngine details = chatWindow.getEngine();
+
+        // Sanitize the message first
+        String sanitizedMessage = message.replace("\\", "\\\\")
+                .replace("'", "\\'")
+                .replace("\n", "\\n")
+                .replace("\r", "\\r");
+
+        if (llm)
+            details.executeScript("addLLMMessage('" + sanitizedMessage + "');");
+        else
+            details.executeScript("addUserMessage('" + sanitizedMessage + "');");
     }
 }

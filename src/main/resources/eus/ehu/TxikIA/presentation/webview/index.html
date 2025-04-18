@@ -18,11 +18,23 @@
 <head>
     <meta charset="UTF-8">
     <title>Math Assistant Chat</title>
+    <!-- MathJax Configuration and Loading -->
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$'], ['\\[', '\\]']],
+                processEscapes: true,
+                processEnvironments: true
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code'],
+                processHtmlClass: 'math'
+            }
+        };
+    </script>
+    <script id="MathJax-script" async src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.js"></script>
 </head>
-<script type="module">
-    import { LaTeXJSComponent } from "https://cdn.jsdelivr.net/npm/latex.js/dist/latex.mjs"
-    customElements.define("latex-js", LaTeXJSComponent)
-</script>
 
 <style>
     html, body {
@@ -78,21 +90,18 @@
         width: 80%; /* Fixed width to prevent overflow issues */
     }
 
-    /* Make sure LaTeX containers respect the parent bounds */
-    latex-js {
-        display: block;
-        max-width: 100%;
-        overflow-x: auto;
-        transform: scale(0.85); /* Scale down LaTeX - less dramatic */
-        transform-origin: left top;
-        margin-bottom: -15%; /* Compensate for the scaling */
-    }
-
-    .formula {
+    /* Styling for math formulas */
+    .math-formula {
         display: block;
         width: 100%;
         max-width: 100%;
         margin: 8px 0; /* Reduced from 10px */
+        overflow-x: auto;
+    }
+
+    /* Inline math styling */
+    .math-inline {
+        display: inline-block;
     }
 
     .graph {
@@ -108,12 +117,6 @@
         margin-top: 8px; /* Reduced from 10px */
         font-size: 0.85rem; /* Smaller button text */
         padding: 0.4rem 0.8rem; /* Smaller button padding */
-    }
-
-    /* For LaTeX rendering */
-    latex-js > div {
-        max-width: 100%;
-        margin: 0 auto;
     }
 
     /* Scale down icons */
@@ -224,8 +227,6 @@
     <!-- Messages will be added here -->
 </div>
 
-
-
 <script>
     let pendingResponse = false;
 
@@ -292,7 +293,6 @@
         }
     }
 
-
     function addLLMMessage(messageText) {
         removeThinkingBubble();
         const chatContainer = document.getElementById('chatContainer');
@@ -307,18 +307,16 @@
         wrapperDiv.appendChild(messageDiv);
         chatContainer.appendChild(wrapperDiv);
 
+        // Typeset the math in the new message
         setTimeout(() => {
-            const latexElements = messageDiv.querySelectorAll('latex-js');
-            latexElements.forEach(el => {
-                el.style.display = 'none';
-                void el.offsetHeight;
-                el.style.display = 'block';
-            });
+            if (window.MathJax) {
+                MathJax.typesetPromise([messageDiv]).catch(function (err) {
+                    console.log('Error typesetting math:', err);
+                });
+            }
             chatContainer.scrollTop = chatContainer.scrollHeight;
         }, 100);
     }
-
-
 </script>
 </body>
 </html>
