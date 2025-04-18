@@ -12,5 +12,8 @@
 
         <mapping class="eus.ehu.TxikIA.domain.User" />
         <mapping class="eus.ehu.TxikIA.domain.Project" />
+        <mapping class="eus.ehu.TxikIA.domain.ChatSession" />
+        <mapping class="eus.ehu.TxikIA.domain.Message" />
+
     </session-factory>
 </hibernate-configuration>

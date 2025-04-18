@@ -1,5 +1,6 @@
 package eus.ehu.TxikIA.business_logic;
 
+import eus.ehu.TxikIA.domain.Message;
 import eus.ehu.TxikIA.domain.NormalizedRequest;
 import eus.ehu.TxikIA.domain.Project;
 
@@ -17,4 +18,7 @@ public interface BInterface {
     boolean deleteProject(UUID user_id, UUID project_id);
     NormalizedRequest getNormalizedRequest(String prompt);
     public String getExplanation(NormalizedRequest request);
+    public List<Message> getMessages();
+
+    String getErrorMessage();
 }

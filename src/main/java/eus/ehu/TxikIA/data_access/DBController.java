@@ -1,5 +1,7 @@
 package eus.ehu.TxikIA.data_access;
 
+import eus.ehu.TxikIA.domain.ChatSession;
+import eus.ehu.TxikIA.domain.Message;
 import eus.ehu.TxikIA.domain.Project;
 import eus.ehu.TxikIA.domain.User;
 import jakarta.persistence.*;
@@ -31,6 +33,7 @@ public class DBController {
             log.info("\033[0;32mSuccesfully connected to local H2 Database \033[0m");
         } catch (Exception e) {
             log.error("Cannot establish a connection to local H2 Database!!!");
+            e.printStackTrace();
             StandardServiceRegistryBuilder.destroy(registry);
 
         }
@@ -133,4 +136,26 @@ public class DBController {
         return true;
     }
 
+
+    public void addMessage(Message message) {
+        System.out.println("hehe");
+
+        Project db_project = db.find(Project.class, Project.getCurrent_UUID());
+
+        ChatSession chat = db_project.getChat();
+        System.out.println("hehe");
+        message.setChatSession(chat);
+
+        db.getTransaction().begin();
+        System.out.println("hehe");
+
+        chat.addMessage(message);
+        System.out.println("hehe");
+
+        db.persist(message);
+        System.out.println("hehe");
+
+        db.getTransaction().commit();
+        System.out.println("hehe");
+    }
 }

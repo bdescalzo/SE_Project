@@ -1,9 +1,7 @@
 package eus.ehu.TxikIA.business_logic;
 
 import eus.ehu.TxikIA.data_access.DBController;
-import eus.ehu.TxikIA.domain.ExplanationOutput;
-import eus.ehu.TxikIA.domain.NormalizedRequest;
-import eus.ehu.TxikIA.domain.Project;
+import eus.ehu.TxikIA.domain.*;
 import eus.ehu.TxikIA.llm_handler.APIRequestHandler;
 
 import java.util.ArrayList;
@@ -48,12 +46,30 @@ public class BusinessLogic implements BInterface{
     }
 
     public NormalizedRequest getNormalizedRequest(String prompt) {
+        db.addMessage(new Message(prompt, "", true)); // Add the user message to the chat history
         return APIRequestHandler.normalizePrompt(prompt, null);
     }
 
     public String getExplanation(NormalizedRequest request) {
         // TODO: Implement retrieval of past actions to send to the request handler, and storing the summary from this request to DB
         ExplanationOutput output = APIRequestHandler.getExplanation(request, "");
+        db.addMessage(new Message(output.get_full_answer(), output.get_summary(), false)); // Add the assistant message to the chat history
         return output.get_full_answer();
+    }
+
+    public List<Message> getMessages() {
+        List<Project> dbProjects = db.getProjects(User.getId_static());
+        List<Message> messages = new ArrayList<>();
+        for (Project project : dbProjects) {
+            System.out.println("Project ID: " + project.getUUID());
+            messages.addAll(project.getChat().getMessages());
+            System.out.println(project.getChat() == null);
+        }
+        return messages;
+    }
+
+    public String getErrorMessage() {
+        db.addMessage(new Message("Sorry, I'm not sure how to help. Try again!", "", false)); // Add the assistant message to the chat history
+        return "Sorry, I'm not sure how to help. Try again!";
     }
 }

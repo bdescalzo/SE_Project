@@ -24,8 +24,16 @@ public class Project {
     @ManyToOne
     private User owner;
 
-    public Project() {
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "chat_session_id", referencedColumnName = "id")
+    private ChatSession chat;
 
+    public Project() {
+        chat = new ChatSession();
+    }
+
+    public ChatSession getChat() {
+        return chat;
     }
 
     public String getName() {

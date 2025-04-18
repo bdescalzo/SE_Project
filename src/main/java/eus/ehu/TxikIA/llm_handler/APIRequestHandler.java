@@ -65,6 +65,7 @@ public class APIRequestHandler {
 
         System.out.println("This is the output:\n" + normalizedRequest.toString());
     }
+
     /**
      *
      * @param systemPrompt The system prompt to be used in the request.
@@ -126,7 +127,8 @@ public class APIRequestHandler {
                         .get("content")
                         .getAsString();
 
-                return content.replaceAll("```json", "").replaceAll("```", "").trim(); // Return the "content" field as a string
+                // The Deepseek API adds leading ```json and trailing ``` to the output, but we can't use it that way in gson, so it has to be trimmed
+                return content.replaceAll("```json", "").replaceAll("```", "").trim();
             } else {
                 System.err.println("API Error: " + response.code() + " - " + response.message());
                 if (response.body() != null) {
