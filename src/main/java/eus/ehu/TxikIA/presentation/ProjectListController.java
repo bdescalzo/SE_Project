@@ -6,6 +6,8 @@ import eus.ehu.TxikIA.business_logic.BusinessLogic;
 import eus.ehu.TxikIA.data_access.DBController;
 import eus.ehu.TxikIA.domain.Project;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.value.ObservableStringValue;
 import javafx.fxml.FXML;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -86,21 +88,17 @@ public class ProjectListController {
         project.setName("Debug project");
         project.setDescription("Debug project");
         project.setCreatedAt(LocalDateTime.now());
-        project.setUpdatedAt(LocalDateTime.now());
+        project.setUpdatedAt(project.getCreatedAt());
         bizLogic.createProject(User.getId_static(),project);
     }
 
     @FXML
     void createNewProject() {
-        modalArea.prefWidthProperty().bind(stage.widthProperty());
-        modalArea.prefHeightProperty().bind(stage.heightProperty());
         newProjectModal.openModal(modalArea);
     }
 
     @FXML
     void build_decoration(){
-        modalArea.prefWidthProperty().bind(projectViewPane.widthProperty());
-        modalArea.prefHeightProperty().bind(projectViewPane.heightProperty());
 
         projectViewPane.setMaxWidth(Double.MAX_VALUE);
         projectViewPane.setMaxHeight(Double.MAX_VALUE);
@@ -124,25 +122,27 @@ public class ProjectListController {
                                         onboardingModal.getModalPane());
     }
 
+
     @FXML
     void initialize() {
 
-        projectViewPane.sceneProperty().addListener((obs, oldScene, newScene) -> {
-            scene = newScene;
-            scene.windowProperty().addListener((obs1, oldScene1, newScene1) -> {
-
-                stage = (Stage) projectViewPane.getScene().getWindow();
-
-                stage.setMinHeight(520);
-                stage.setMinWidth(360);
+        build_decoration();
 
 
-            });
+        Platform.runLater(() -> {
+
+            scene = projectViewPane.getScene();
+            stage = (Stage) projectViewPane.getScene().getWindow();
+
+            stage.setMinHeight(520);
+            stage.setMinWidth(360);
+
+            modalArea.prefWidthProperty().bind(stage.widthProperty());
+            modalArea.prefHeightProperty().bind(stage.heightProperty());
 
         });
 
 
-        build_decoration();
 
         List<Project> projects = bizLogic.retrieveProjects(User.getId_static());
         projectList = new ProjectList(projects);
