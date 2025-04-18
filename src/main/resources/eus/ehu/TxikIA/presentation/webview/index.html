@@ -225,10 +225,8 @@
 </div>
 
 
-<!-- REPLACEMENT SCRIPT SECTION ONLY -->
+
 <script>
-    // Track initialization state
-    let isInitialized = false;
     let pendingResponse = false;
 
     function escapeHtml(unsafe) {
@@ -284,7 +282,6 @@
 
         wrapperDiv.appendChild(bubbleDiv);
         chatContainer.appendChild(wrapperDiv);
-
         chatContainer.scrollTop = chatContainer.scrollHeight;
     }
 
@@ -295,85 +292,6 @@
         }
     }
 
-    function initializationResponse() {
-        setTimeout(() => {
-            removeThinkingBubble();
-
-            if (!isInitialized) {
-                addLLMMessage(
-                    `<p>Our great formula is</p>
-                    <latex-js class="formula">
-                        $$
-                        \\int_{x}^{24} e^{x^{2}} = \\sqrt[3]{5}
-                        $$
-                    </latex-js>
-                    <p>. Comply, or die.</p>
-
-                    <latex-js class="graph">
-                        \\frame{\\setlength{\\unitlength}{1mm}
-                        \\begin{picture}(60, 50)
-                        \\put(20,30){\\circle{1}}
-                        \\put(20,30){\\circle{2}}
-                        \\put(20,30){\\circle{4}}
-                        \\put(20,30){\\circle{8}}
-                        \\put(20,30){\\circle{16}}
-                        \\put(20,30){\\circle{32}}
-                        \\put(40,30){\\circle{1}}
-                        \\put(40,30){\\circle{2}}
-                        \\put(40,30){\\circle{3}}
-                        \\put(40,30){\\circle{4}}
-                        \\put(40,30){\\circle{5}}
-                        \\put(40,30){\\circle{6}}
-                        \\put(40,30){\\circle{7}}
-                        \\put(40,30){\\circle{8}}
-                        \\put(40,30){\\circle{9}}
-                        \\put(40,30){\\circle{10}}
-                        \\put(40,30){\\circle{11}}
-                        \\put(40,30){\\circle{12}}
-                        \\put(40,30){\\circle{13}}
-                        \\put(40,30){\\circle{14}}
-                        \\put(15,10){\\circle*{1}}
-                        \\put(20,10){\\circle*{2}}
-                        \\put(25,10){\\circle*{3}}
-                        \\put(30,10){\\circle*{4}}
-                        \\put(35,10){\\circle*{5}}
-                        \\end{picture}}
-                    </latex-js>
-
-                    <button type="button" class="btn btn-success" data-mdb-ripple-init data-mdb-ripple-color="dark">
-                        <i class="far fa-copy"></i>
-                        GET SAGEMATH CODE!
-                    </button>`
-                );
-
-                setTimeout(() => {
-                    addUserMessage("Can you also explain the meaning of this formula in simpler terms?");
-
-                    setTimeout(() => {
-                        removeThinkingBubble();
-                        addLLMMessage(
-                            `<p>Of course! This formula represents a definite integral of e raised to x squared.
-                            The unusual thing about this integral is that it doesn't have a closed-form solution
-                            in terms of elementary functions.</p>
-
-                            <p>Here's another way to visualize the problem:</p>
-
-                            <latex-js class="formula">
-                                $$
-                                \\int e^{x^2} dx = \\text{No elementary solution}
-                                $$
-                            </latex-js>
-
-                            <p>The equality shown in the original formula is just for demonstration purposes.</p>`
-                        );
-
-                        isInitialized = true;
-                        pendingResponse = false;
-                    }, 2000);
-                }, 1000);
-            }
-        }, 2000);
-    }
 
     function addLLMMessage(messageText) {
         removeThinkingBubble();
@@ -400,10 +318,7 @@
         }, 100);
     }
 
-    // Initialize on DOM ready
-    document.addEventListener('DOMContentLoaded', function () {
-        initializationResponse(); // Start demo messages immediately
-    });
+
 </script>
 </body>
 </html>
