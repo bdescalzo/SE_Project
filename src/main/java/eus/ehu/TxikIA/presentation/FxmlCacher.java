@@ -23,50 +23,37 @@ public class FxmlCacher {
 
     public void loadContent(Pane contentPane)  {
 
-        /*
-         todo: Implement cache
-         */
-
         String filename = getFxmlFileName();
 
         Stage stage = (Stage) contentPane.getScene().getWindow();
 
         Pane content = null;
+        Scene scene = null;
+
         try {
-            content = loader.load();
+            content = cache.get(filename);
+            if (content == null) {
+                content = loader.load();
+                cache.put(filename, content);
+                scene = new Scene(content);
+            } else {
+                scene = content.getScene();
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        Scene scene = new Scene(content);
         stage.setScene(scene);
         stage.show();
 
-
-        /*
-        try {
-            // Check if content is already cached
-            Pane content = cache.get(filename);
-            if (content == null) {
-                // If not cached, load it and store in cache
-                content = loader.load();
-                cache.put(filename, content);
-            }
-            // contentPane.getChildren().setAll(content);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        */
     }
 
     public void loadModal(Pane contentPane) {
         String filename = getFxmlFileName();
 
         try {
-            // Check if content is already cached
             Pane content = cache.get(filename);
             if (content == null) {
-                // If not cached, load it and store in cache
                 content = loader.load();
                 cache.put(filename, content);
             }
