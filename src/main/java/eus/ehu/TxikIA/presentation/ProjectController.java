@@ -173,8 +173,7 @@ public class ProjectController {
         WebEngine details = chatWindow.getEngine();
 
         // Sanitize the message first
-        String sanitizedMessage = message.replace("\\", "\\\\")
-                .replace("'", "\\'")
+        String sanitizedMessage = message.replace("'", "\\'")
                 .replace("\n", "\\n")
                 .replace("\r", "\\r");
 
