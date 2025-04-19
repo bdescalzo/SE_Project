@@ -5,11 +5,13 @@ import eus.ehu.TxikIA.domain.NormalizedRequest;
 import eus.ehu.TxikIA.domain.SystemPrompts;
 import okhttp3.*;
 import com.google.gson.*;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.FileReader;
 import java.util.concurrent.TimeUnit;
 
 public class APIRequestHandler {
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(APIRequestHandler.class);
 
     /* In a real set-up, these shouldn't be hardcoded */
     private static final String GEMINI_API_KEY = "INSERT GEMINI KEY";
@@ -26,9 +28,10 @@ public class APIRequestHandler {
         try (FileReader reader = new FileReader(filePath)) {
             // Deserialize JSON into SystemPrompts object
             SystemPrompts result = gson.fromJson(reader, SystemPrompts.class);
+            log.info("System prompts for LLM have been successfully loaded.");
             return result;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("System prompts for LLM could not be successfully loaded.");
             return new SystemPrompts();
         }
     }
@@ -50,10 +53,9 @@ public class APIRequestHandler {
         // Call the Deepseek API with the explanation system prompt
         // TODO: Implement code generation on chat
         String userPrompt = request.getFormalized_request() + " PAST_CONTEXT " + past_context + " GENERATED_CODE " +" No code generated";
-        System.out.println("This is the user prompt: " + userPrompt);
+        log.info("Asking LLM for prompt: " + userPrompt);
         String explanation = deepseekRequest(systemPrompts.get("explanation_prompt"), userPrompt, "reasoner");
 
-        System.out.println("This is the explanation: " + explanation);
         // Deserialize the response into ExplanationOutput object
         Gson gson = new Gson();
         return gson.fromJson(explanation, ExplanationOutput.class);
@@ -113,7 +115,9 @@ public class APIRequestHandler {
                 .build();
 
         try (Response response = client.newCall(request).execute()) {
+            log.info("Trying to contact with Deepseek API");
             if (response.isSuccessful() && response.body() != null) {
+                log.info("Successful response");
                 // Parse the response body
                 String responseBody = response.body().string();
                 JsonObject jsonResponse = JsonParser.parseString(responseBody).getAsJsonObject();
@@ -126,18 +130,20 @@ public class APIRequestHandler {
                         .getAsJsonObject("message")
                         .get("content")
                         .getAsString();
+                String result = content.replaceAll("```json", "").replaceAll("```", "").trim();
 
+                log.info("Trimmed API answer: " + result);
                 // The Deepseek API adds leading ```json and trailing ``` to the output, but we can't use it that way in gson, so it has to be trimmed
-                return content.replaceAll("```json", "").replaceAll("```", "").trim();
+                return result;
             } else {
-                System.err.println("API Error: " + response.code() + " - " + response.message());
+                log.error("API Error: " + response.code() + " - " + response.message());
                 if (response.body() != null) {
-                    System.err.println("Response Body: " + response.body().string());
+                    log.error("Response Body in API error: " + response.body().string());
                 }
                 throw new Exception("Unexpected response: " + response);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("Exception occurred while trying to contact Deepseek API");
             return null; // Return null in case of an error
         }
     }

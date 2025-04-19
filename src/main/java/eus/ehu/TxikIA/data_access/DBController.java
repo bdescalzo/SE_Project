@@ -138,19 +138,19 @@ public class DBController {
 
 
     public void addMessage(Message message) {
+        // Get the project and its corresponding chat
         Project db_project = db.find(Project.class, Project.getCurrent_UUID());
-
         ChatSession chat = db_project.getChat();
 
+        // Assign the chat to the message
         message.setChatSession(chat);
 
+        // Assign the message to the chat
         db.getTransaction().begin();
-
         chat.addMessage(message);
-
         db.persist(message);
-
         db.getTransaction().commit();
+        log.info("Message stored in project {}", Project.getCurrent_UUID());
     }
 
     public Project find(Class<Project> projectClass, UUID currentUuid) {

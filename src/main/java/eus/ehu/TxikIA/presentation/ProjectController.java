@@ -122,12 +122,6 @@ public class ProjectController {
             addMessageToChat(answer, true);
         });
 
-        task.setOnFailed(workerStateEvent -> {
-            sendButton.setDisable(false);
-            Throwable exception = task.getException();
-            log.error("Error while sending the request to the LLM: {}", exception.getMessage());
-            addMessageToChat("Error: " + exception.getMessage(), true);
-        });
 
         new Thread(task).start();
     }
