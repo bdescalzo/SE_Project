@@ -1,11 +1,11 @@
 @startuml
-skinparam classAttributeIconSize 0
-skinparam classFontStyle bold
-skinparam classFontSize 14
-skinparam classBackgroundColor LightSkyBlue
-skinparam classBorderColor DarkSlateGray
+skinparam class {
+  BackgroundColor LightSkyBlue
+  BorderColor Black
+  ArrowColor Black
+}
 
-class User {
+class User{
   +userId : String
   +username : String
   +password : String
@@ -13,7 +13,7 @@ class User {
   +lastLogin : DateTime
 }
 
-class Project {
+class Project{
   +projectId : String
   +name : String
   +description : String
@@ -28,6 +28,7 @@ class ChatSession {
   +lastInteraction : DateTime
 }
 
+
 class Message {
   +messageId : String
   +content : String
@@ -35,16 +36,22 @@ class Message {
   +isUserMessage : Boolean
 }
 
-class Script {
-  +scriptId : String
+class Document {
+  +documentId : String
   +content : String
-  +timestamp : DateTime
 }
 
 class Quiz {
   +quizId : String
   +createdAt : DateTime
   +completedAt : DateTime
+}
+
+class Problem {
+  +problemId : String
+  +statement : String
+  +expectedSolution : String
+  +createdAt : DateTime
 }
 
 class QuizQuestion {
@@ -63,13 +70,6 @@ class QuizResult {
   +feedback : String
 }
 
-class Problem {
-  +problemId : String
-  +statement : String
-  +expectedSolution : String
-  +createdAt : DateTime
-}
-
 class UserAnswer {
   +answerId : String
   +content : String
@@ -85,15 +85,21 @@ class ProblemFeedback {
   +grade: int
 }
 
-' Relationships
+class Script {
+  +scriptId : String
+  +content : String
+  +timestamp : DateTime
+}
+
 User "1" -- "0..*" Project : owns >
-Project "1" -- "0..*" ChatSession : has >
+Project "1" -- "1" ChatSession : has >
 Project "1" -- "0..*" Quiz : has >
 Project "1" -- "0..*" Problem : has >
 ChatSession "1" -- "0..*" Message : contains >
-ChatSession "1" -- "0..*" Script : contains >
+ChatSession "1" -- "0..1" Document : < associate
 Quiz "1" -- "0..*" QuizQuestion : contains >
 Quiz "1" -- "1" QuizResult : produces >
 Problem "1" -- "1" UserAnswer : has >
-Problem "1" -- "1" ProblemFeedback : receives >
+Problem "1" -- "1" ProblemFeedback : < receives
+Message "1" -- "0..1" Script : contains >
 @enduml

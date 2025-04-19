@@ -1,5 +1,3 @@
-# TxikIA
-
 > *(Psst... looking for the [sprint info](#information-for-software-engineering-class) in the Software Engineering project?)*
 
 ![TxikIA Chat Window](images/txikia_chat_window.png)

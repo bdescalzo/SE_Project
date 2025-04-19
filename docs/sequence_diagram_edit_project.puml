@@ -1,0 +1,46 @@
+@startuml
+actor "Logged User"
+participant "ProjectListUI"
+participant "BusinessLogic"
+participant "DBControler\n(Access Manager)" as DBControler
+participant "DBEntityManager"
+participant "ProjectList"
+participant "EditProjectUI"
+participant "Project"
+
+"ProjectListUI" -> "BusinessLogic": retrieveProjects(UUID)
+"BusinessLogic" -> "DBControler": getProjects(UUID)
+"DBControler" -> "DBEntityManager": createQuery(Q1)
+note right of "DBEntityManager"
+  Q1: SELECT p
+  FROM Project p
+  WHERE p.owner
+  = ?1
+  
+  ?1 = owner
+end note
+"DBEntityManager" --> "DBControler": <project1, ..., projectN>
+"DBControler" --> "BusinessLogic": projects
+"BusinessLogic" --> "ProjectListUI": projects
+"ProjectListUI" -> "ProjectList": loadProjects(projects)
+
+"Logged User" -> "ProjectListUI": clicks a project
+"Logged User" -> "ProjectListUI": click edit button
+"ProjectListUI" -> "EditProjectUI": editProject()
+"Logged User" -> "EditProjectUI": chooses projectName
+"Logged User" -> "EditProjectUI": chooses projectDesc
+"Logged User" -> "EditProjectUI": clicks apply button
+"EditProjectUI" -> "BusinessLogic": editProject(UUID, projectName, projectDesc)
+"BusinessLogic" -> "DBControler": editProject(UUID, projectName, projectDesc)
+"DBControler" -> "DBEntityManager": getTransaction().begin()
+"DBControler" -> "DBEntityManager": find(Project.class,\nProject.getCurrent_UUID())
+"DBControler" -> "Project": setName(projectName)
+"DBControler" -> "Project": setDescription(projectDesc)
+"DBControler" -> "Project": setUpdatedAt(LocalDateTime.now())
+"DBControler" -> "DBEntityManager": merge(db_found)
+"DBControler" -> "DBEntityManager": getTransaction().commit()
+"DBControler" --> "BusinessLogic": success/exception
+"BusinessLogic" --> "EditProjectUI": success/exception
+"EditProjectUI" --> "ProjectListUI": success/exception
+"ProjectListUI" -> "ProjectListUI": printSuccessErrorMessage()
+@enduml
