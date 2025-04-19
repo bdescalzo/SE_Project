@@ -134,7 +134,7 @@ public class ProjectController {
         opt4.setToggleGroup(chatToggleGroup);
 
         WebEngine details = chatWindow.getEngine();
-        URL url = this.getClass().getResource("webview"+"/"+ "index.html");
+        URL url = this.getClass().getResource("webview"+"/"+ "chat-view.html");
         details.load(url.toString());
 
         // Load the chat history when the web engine is ready
