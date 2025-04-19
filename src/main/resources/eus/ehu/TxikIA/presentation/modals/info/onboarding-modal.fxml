@@ -1,45 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import java.lang.String?>
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.Pagination?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
-<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="427.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox fx:id="contentVbox" alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="507.0" prefWidth="720.0" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.TxikIA.presentation.OnboardingController">
    <children>
-      <Label text="A brief Introduction" textFill="#6b6868">
+      <Label text="A brief introduction" textFill="#6b6868">
          <font>
             <Font size="25.0" />
          </font>
       </Label>
-      <Label text="You can view and edit projects you have previously created" textFill="#6b6868">
-         <font>
-            <Font size="18.0" />
-         </font>
-         <VBox.margin>
-            <Insets top="10.0" />
-         </VBox.margin>
-      </Label>
-      <ImageView fitHeight="253.0" fitWidth="322.0" pickOnBounds="true" preserveRatio="true">
-         <image>
-            <Image url="@../../pictures/Project_view.png" />
-         </image>
-      </ImageView>
-      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
+      <Pagination fx:id="tipPager" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" pageCount="10" prefHeight="438.0" prefWidth="720.0" style="-fx-page-information-alignment: top; -fx-arrows-visible: false;" styleClass="bullet" />
+      <HBox alignment="CENTER" prefHeight="100.0" prefWidth="200.0" spacing="30.0">
          <children>
-            <Button fx:id="prevPage" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="32.0" prefWidth="80.0" text="Previous">
+            <Button fx:id="prevButton" mnemonicParsing="false" text="Previous">
                <styleClass>
                   <String fx:value="accent" />
                   <String fx:value="button-outlined" />
                </styleClass>
             </Button>
-          <Button fx:id="nextPage" contentDisplay="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" mnemonicParsing="false" prefHeight="32.0" prefWidth="80.0" text="Next">
+            <Button fx:id="nextButton" mnemonicParsing="false" prefHeight="34.0" prefWidth="75.0" text="Next">
                <styleClass>
                   <String fx:value="accent" />
                   <String fx:value="button-outlined" />

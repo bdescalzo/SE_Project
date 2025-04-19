@@ -126,23 +126,15 @@ public class ProjectListController {
     @FXML
     void initialize() {
 
-        build_decoration();
-
-
         Platform.runLater(() -> {
-
             scene = projectViewPane.getScene();
             stage = (Stage) projectViewPane.getScene().getWindow();
 
-            stage.setMinHeight(520);
-            stage.setMinWidth(360);
-
             modalArea.prefWidthProperty().bind(stage.widthProperty());
             modalArea.prefHeightProperty().bind(stage.heightProperty());
-
         });
 
-
+        build_decoration();
 
         List<Project> projects = bizLogic.retrieveProjects(User.getId_static());
         projectList = new ProjectList(projects);
@@ -176,6 +168,7 @@ public class ProjectListController {
                         stage.setHeight(stage.getHeight() - 240);
                     }
                 });
+
                 projectPager.currentPageIndexProperty().addListener((obs, oldPage, newPage) -> {
                     accordion.setExpandedPane(null);
                 });
@@ -212,10 +205,13 @@ public class ProjectListController {
                     stage.setWidth(720);
                     stage.setHeight(540);
                     stage.setMinWidth(720);
-                    stage.setMinHeight(420);
-                    modalArea.prefWidthProperty().bind(stage.widthProperty());
-                    modalArea.prefHeightProperty().bind(stage.heightProperty());
+                    stage.setMinHeight(540);
                     onboardingModal.openModal(modalArea);
+                });
+            } else {
+                Platform.runLater(() -> {
+                    stage.setMinHeight(520);
+                    stage.setMinWidth(360);
                 });
             }
         }
