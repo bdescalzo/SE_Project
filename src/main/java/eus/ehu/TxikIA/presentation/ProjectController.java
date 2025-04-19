@@ -1,7 +1,9 @@
 package eus.ehu.TxikIA.presentation;
 
+import eus.ehu.TxikIA.data_access.DBController;
 import eus.ehu.TxikIA.domain.Message;
 import eus.ehu.TxikIA.domain.NormalizedRequest;
+import eus.ehu.TxikIA.domain.Project;
 import javafx.concurrent.Task;
 import javafx.concurrent.Worker;
 import javafx.event.ActionEvent;
@@ -10,6 +12,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
+import org.apache.logging.log4j.LogManager;
 import org.kordamp.ikonli.javafx.FontIcon;
 import org.kordamp.ikonli.material2.Material2AL;
 import org.kordamp.ikonli.material2.Material2MZ;
@@ -21,6 +24,8 @@ import java.util.List;
 import eus.ehu.TxikIA.llm_handler.APIRequestHandler;
 
 public class ProjectController {
+
+    private static final org.apache.logging.log4j.Logger log = LogManager.getLogger(ProjectController.class);
 
     private BusinessLogic bl = new BusinessLogic();
     @FXML
@@ -75,6 +80,7 @@ public class ProjectController {
     public void sendUserPrompt(ActionEvent event) {
         // Only proceed if the user has written something
         if (chatInput.getText().isEmpty()) {
+            log.error("User has tried to send empty message.");
             return;
         }
 
@@ -84,6 +90,7 @@ public class ProjectController {
         sendButton.setDisable(true); // Prevent user messages until the LLM answer is received
         WebEngine details = chatWindow.getEngine();
         addMessageToChat(userMessage, false);
+
 
         // Create a task to handle the LLM request (to avoid freezing the app)
         Task<String> task = new Task<>() {
@@ -113,6 +120,13 @@ public class ProjectController {
             // Add the LLM message to the interface
             System.out.println("We got this answer: " + answer);
             addMessageToChat(answer, true);
+        });
+
+        task.setOnFailed(workerStateEvent -> {
+            sendButton.setDisable(false);
+            Throwable exception = task.getException();
+            log.error("Error while sending the request to the LLM: {}", exception.getMessage());
+            addMessageToChat("Error: " + exception.getMessage(), true);
         });
 
         new Thread(task).start();
@@ -172,31 +186,13 @@ public class ProjectController {
                 .replace("\n", "\\n")
                 .replace("\r", "\\r");
 
-        if (llm)
+        if (llm) {
             details.executeScript("addLLMMessage('" + sanitizedMessage + "');");
-        else
+            log.info("LLM message added to chat");
+        }
+        else {
             details.executeScript("addUserMessage('" + sanitizedMessage + "');");
+            log.info("User message added to chat");
+        }
     }
-
-/*    void addMessageToChat(String message, boolean llm) {
-        WebEngine details = chatWindow.getEngine();
-
-        // Use JSON.stringify to properly escape the string for JavaScript
-        String jsCommand = llm
-                ? "addLLMMessage(JSON.parse(" + escapeStringForJsEval(message) + "));"
-                : "addUserMessage(JSON.parse(" + escapeStringForJsEval(message) + "));";
-
-        details.executeScript(jsCommand);
-    }
-
-    private String escapeStringForJsEval(String str) {
-        return "JSON.stringify(" +
-                "\"" +
-                str.replace("\\", "\\\\")
-                        .replace("\"", "\\\"")
-                        .replace("\n", "\\n")
-                        .replace("\r", "\\r") +
-                "\")";
-    }
-*/
 }
