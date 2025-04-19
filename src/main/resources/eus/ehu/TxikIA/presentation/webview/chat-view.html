@@ -205,6 +205,11 @@
 </div>
 
 <script>
+    // Ensure there's no thinking bubble when the chat is just opened
+    document.addEventListener('DOMContentLoaded', () => {
+        removeThinkingBubble();
+    });
+
     function escapeHtml(unsafe) {
         return unsafe
             .replace(/&/g, "&amp;")
