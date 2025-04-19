@@ -146,7 +146,6 @@ public class ProjectController {
     }
 
     void loadMessages() {
-        WebEngine details = chatWindow.getEngine();
         List<Message> messages = bl.getMessages();
 
         // Load message history into UI
@@ -154,12 +153,7 @@ public class ProjectController {
             System.out.println("MESSAGE: " + message.getContent());
             boolean isUserMessage = message.isUserMessage();
             String messageContent = message.getContent();
-            if (isUserMessage) {
-                details.executeScript("addUserMessage('" + messageContent.replace("'", "\\'") + "');");
-            }
-            else {
-                details.executeScript("addLLMMessage('" + messageContent.replace("'", "\\'") + "');");
-            }
+            addMessageToChat(messageContent, !isUserMessage);
         }
     }
 
@@ -169,11 +163,12 @@ public class ProjectController {
      * @param llm True if the message is from the LLM, false if it is from the user
      * Writes the message on the screen, by sending it to the HTML view
      */
-    void addMessageToChat(String message, boolean llm) {
+   void addMessageToChat(String message, boolean llm) {
         WebEngine details = chatWindow.getEngine();
 
         // Sanitize the message first
-        String sanitizedMessage = message.replace("'", "\\'")
+        String sanitizedMessage = message.replace("\\","\\\\")
+                .replace("'", "\\'")
                 .replace("\n", "\\n")
                 .replace("\r", "\\r");
 
@@ -182,4 +177,26 @@ public class ProjectController {
         else
             details.executeScript("addUserMessage('" + sanitizedMessage + "');");
     }
+
+/*    void addMessageToChat(String message, boolean llm) {
+        WebEngine details = chatWindow.getEngine();
+
+        // Use JSON.stringify to properly escape the string for JavaScript
+        String jsCommand = llm
+                ? "addLLMMessage(JSON.parse(" + escapeStringForJsEval(message) + "));"
+                : "addUserMessage(JSON.parse(" + escapeStringForJsEval(message) + "));";
+
+        details.executeScript(jsCommand);
+    }
+
+    private String escapeStringForJsEval(String str) {
+        return "JSON.stringify(" +
+                "\"" +
+                str.replace("\\", "\\\\")
+                        .replace("\"", "\\\"")
+                        .replace("\n", "\\n")
+                        .replace("\r", "\\r") +
+                "\")";
+    }
+*/
 }
