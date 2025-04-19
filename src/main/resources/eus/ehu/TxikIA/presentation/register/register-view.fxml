@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<GridPane fx:id="registerPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/21.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="eus.ehu.TxikIA.presentation.RegisterController">
+  <columnConstraints>
+    <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+  </columnConstraints>
+  <rowConstraints>
+    <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="194.0" minHeight="10.0" prefHeight="194.0" vgrow="SOMETIMES" />
+    <RowConstraints maxHeight="129.0" minHeight="10.0" prefHeight="72.0" vgrow="SOMETIMES" />
+  </rowConstraints>
+   <children>
+      <Label text="Create your account" textFill="#6b6868" GridPane.halignment="CENTER" GridPane.valignment="CENTER">
+         <font>
+            <Font size="28.0" />
+         </font>
+      </Label>
+      <TextField fx:id="userField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="34.0" prefWidth="434.0" promptText="Username" styleClass="STATE_SUCCESS" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets top="20.0" />
+         </GridPane.margin>
+      </TextField>
+      <PasswordField fx:id="passField" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="34.0" prefWidth="434.0" promptText="Password" styleClass="PasswordTextField" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets top="80.0" />
+         </GridPane.margin>
+      </PasswordField>
+      <PasswordField fx:id="passFieldConfirm" maxHeight="-Infinity" maxWidth="-Infinity" prefHeight="34.0" prefWidth="436.0" promptText="Confirm Password" styleClass="PasswordTextField" GridPane.halignment="CENTER" GridPane.hgrow="ALWAYS" GridPane.rowIndex="1" GridPane.valignment="TOP">
+         <GridPane.margin>
+            <Insets top="140.0" />
+         </GridPane.margin>
+      </PasswordField>
+      <Button fx:id="registerButton" mnemonicParsing="false" onAction="#register" prefHeight="34.0" prefWidth="149.0" text="Create Account" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+         <styleClass>
+            <String fx:value="button-outlined" />
+            <String fx:value="accent" />
+         </styleClass>
+      </Button>
+      <Button fx:id="backButton" mnemonicParsing="false" onAction="#toWelcome" prefHeight="34.0" prefWidth="27.0" text=" " GridPane.valignment="TOP">
+         <styleClass>
+            <String fx:value="flat" />
+            <String fx:value="button-circle" />
+         </styleClass>
+         <GridPane.margin>
+            <Insets left="10.0" top="10.0" />
+         </GridPane.margin>
+      </Button>
+      <Label text="Don't worry, you'll later be able to change your account info" textFill="#6b6868" GridPane.halignment="CENTER" GridPane.rowIndex="2">
+         <GridPane.margin>
+            <Insets top="80.0" />
+         </GridPane.margin>
+      </Label>
+      <StackPane fx:id="modalPanePage" prefHeight="400.0" prefWidth="600.0" visible="false" GridPane.rowSpan="3">
+         <children>
+            <HBox alignment="CENTER" prefHeight="400.0" prefWidth="600.0" />
+         </children>
+      </StackPane>
+   </children>
+</GridPane>
